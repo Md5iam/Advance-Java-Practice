@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="610.0" prefWidth="930.0" style="-fx-background-color: #f8f9fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bd.edu.seu.nookmanagementsystem.User.userDeshboard.Features.userHomeController">
+   <children>
+      <VBox spacing="30.0" layoutX="40.0" layoutY="40.0" prefWidth="850.0">
+         <children>
+            <!-- Header -->
+            <VBox spacing="5.0">
+               <children>
+                  <Label fx:id="welcomeLabel" style="-fx-text-fill: #2c3e50;" text="Welcome back!">
+                     <font>
+                        <Font name="System Bold" size="26.0" />
+                     </font>
+                  </Label>
+                  <Label style="-fx-text-fill: #7f8c8d;" text="Here is a quick overview of the library catalog and your activities.">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+
+            <!-- Stats Row -->
+            <HBox spacing="30.0">
+               <children>
+                  <!-- Stat Card 1 -->
+                  <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4); -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Total Book Titles">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalBooksLabel" style="-fx-text-fill: #3498db; -fx-font-weight: bold;" text="0">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+
+                  <!-- Stat Card 2 -->
+                  <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4); -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Total Copies Stocked">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalAvailableLabel" style="-fx-text-fill: #2ecc71; -fx-font-weight: bold;" text="0">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+
+                  <!-- Stat Card 3 -->
+                  <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4); -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Your Active Borrows">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="userBorrowedLabel" style="-fx-text-fill: #e74c3c; -fx-font-weight: bold;" text="0">
+                           <font>
+                              <Font size="36.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
