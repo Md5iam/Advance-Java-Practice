@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Scene 1: Book Courier</title>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav>
+        <a href="/book"><b>Scene 1: Book Courier</b></a> |
+        <a href="/track">Scene 2: Track Package</a> |
+        <a href="/history">Scene 3: Courier History</a>
+    </nav>
+    <hr>
+
+    <h1>Online Courier Management System</h1>
+    <h2>Scene 1: Book New Courier</h2>
+
+    <div th:if="${message}">
+        <p style="color: green;">
+            <b th:text="${message}"></b><br>
+            Your Tracking Number is: <strong th:text="${trackingNumber}"></strong>
+        </p>
+    </div>
+
+    <form th:action="@{/book}" th:object="${courier}" method="post">
+        <div>
+            <label for="senderName">Sender Name:</label><br>
+            <input type="text" id="senderName" th:field="*{senderName}">
+            <span th:if="${#fields.hasErrors('senderName')}" th:errors="*{senderName}" style="color: red;"></span>
+        </div>
+        <br>
+        <div>
+            <label for="receiverName">Receiver Name:</label><br>
+            <input type="text" id="receiverName" th:field="*{receiverName}">
+            <span th:if="${#fields.hasErrors('receiverName')}" th:errors="*{receiverName}" style="color: red;"></span>
+        </div>
+        <br>
+        <div>
+            <label for="destinationAddress">Destination Address:</label><br>
+            <textarea id="destinationAddress" th:field="*{destinationAddress}" rows="3"></textarea>
+            <span th:if="${#fields.hasErrors('destinationAddress')}" th:errors="*{destinationAddress}" style="color: red;"></span>
+        </div>
+        <br>
+        <div>
+            <label for="weightKg">Package Weight (KG):</label><br>
+            <input type="number" step="0.1" id="weightKg" th:field="*{weightKg}">
+            <span th:if="${#fields.hasErrors('weightKg')}" th:errors="*{weightKg}" style="color: red;"></span>
+        </div>
+        <br>
+        <div>
+            <button type="submit">Submit Booking</button>
+        </div>
+    </form>
+
+</body>
+</html>

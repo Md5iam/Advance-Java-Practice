@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fare History</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Fare History</h1>
+
+    <p th:if="${history.isEmpty()}">No history found yet.</p>
+    <a href="/">Back to Dashboard</a>
+
+    <table border="1" th:unless="${history.isEmpty()}">
+        <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>KM</th>
+            <th>Normal Fare</th>
+            <th>Student Fare</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="fare : ${history}">
+            <td th:text="${fare.startAddress}"></td>
+            <td th:text="${fare.dropAddress}"></td>
+            <td th:text="${fare.km}"></td>
+            <td th:text="${fare.normalFare}"></td>
+            <td th:text="${fare.studentFare}"></td>
+            <td>
+                <a th:href="@{/history/remove/{id}(id=${fare.id})}">Remove</a>
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+</body>
+</html>

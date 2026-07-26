@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Scene 3: Courier History</title>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav>
+        <a href="/book">Scene 1: Book Courier</a> |
+        <a href="/track">Scene 2: Track Package</a> |
+        <a href="/history"><b>Scene 3: Courier History</b></a>
+    </nav>
+    <hr>
+
+    <h1>Online Courier Management System</h1>
+    <h2>Scene 3: Courier Records & History</h2>
+
+    <div th:if="${#lists.isEmpty(couriers)}">
+        <p>No courier records found in the database.</p>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(couriers)}">
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tracking Number</th>
+                    <th>Sender Name</th>
+                    <th>Receiver Name</th>
+                    <th>Destination Address</th>
+                    <th>Weight (KG)</th>
+                    <th>Current Status</th>
+                    <th>Update Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="c : ${couriers}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.trackingNumber}"></td>
+                    <td th:text="${c.senderName}"></td>
+                    <td th:text="${c.receiverName}"></td>
+                    <td th:text="${c.destinationAddress}"></td>
+                    <td th:text="${c.weightKg}"></td>
+                    <td><b th:text="${c.status}"></b></td>
+                    <td>
+                        <form th:action="@{/update-status}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${c.id}">
+                            <select name="status">
+                                <option value="PENDING" th:selected="${c.status == 'PENDING'}">PENDING</option>
+                                <option value="IN_TRANSIT" th:selected="${c.status == 'IN_TRANSIT'}">IN_TRANSIT</option>
+                                <option value="DELIVERED" th:selected="${c.status == 'DELIVERED'}">DELIVERED</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/delete/{id}(id=${c.id})}" method="post" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

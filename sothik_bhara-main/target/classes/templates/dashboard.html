@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sothik Bhara</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to Sothik Bhara</h1>
+    <p class="tagline">Have a safe journey!</p>
+
+    <div class="option-box">
+
+        <a href="/bus" class="option-card">
+            <h2>BUS</h2>
+            <p>Calculate your bus fare</p>
+        </a>
+
+        <div class="option-card disabled">
+            <h2>CNG</h2>
+            <p>Coming soon</p>
+        </div>
+
+        <div class="option-card disabled">
+            <h2>TRAIN</h2>
+            <p>Coming soon</p>
+        </div>
+
+    </div>
+
+    <br>
+    <a href="/history">View History</a>
+</div>
+
+</body>
+</html>

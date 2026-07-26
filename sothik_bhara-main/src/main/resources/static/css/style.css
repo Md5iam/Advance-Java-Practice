@@ -1,0 +1,496 @@
+/* ============================================
+   SOTHIK BHARA — Deep Forest Green Gradient
+   Drop-in replacement — no HTML changes needed
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #020d09;
+    background-image:
+            radial-gradient(ellipse at 10% 15%, rgba(2, 100, 60, 0.55), transparent 42%),
+            radial-gradient(ellipse at 88% 8%, rgba(0, 80, 45, 0.50), transparent 38%),
+            radial-gradient(ellipse at 50% 100%, rgba(4, 120, 70, 0.30), transparent 50%),
+            radial-gradient(ellipse at 30% 60%, rgba(1, 60, 35, 0.40), transparent 40%),
+            linear-gradient(160deg, #020d09 0%, #041a0f 40%, #021208 70%, #010a06 100%);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 48px 20px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.45;
+    z-index: 0;
+    pointer-events: none;
+    animation: float 14s ease-in-out infinite;
+}
+body::before {
+    top: -130px;
+    left: -110px;
+    background: radial-gradient(circle, #024a28, #016632, transparent 70%);
+}
+body::after {
+    bottom: -150px;
+    right: -110px;
+    background: radial-gradient(circle, #01501e, #036640, transparent 70%);
+    animation-delay: 3s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -30px) scale(1.08); }
+}
+
+.container {
+    max-width: 880px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 46px 42px;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+            0 30px 70px rgba(1, 12, 7, 0.55),
+            0 10px 25px rgba(1, 12, 7, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    text-align: center;
+    color: #111827;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #022c18 0%, #024a28 40%, #016632 70%, #01884a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+    text-align: center;
+    color: #6b7280;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 42px;
+    letter-spacing: 0.2px;
+}
+
+.option-box {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: left;
+}
+
+.option-card {
+    flex: 1;
+    min-width: 220px;
+    padding: 32px 22px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    border-radius: 20px;
+    background: linear-gradient(150deg, #012b16 0%, #024a28 35%, #016632 65%, #017a3a 100%);
+    background-size: 200% 200%;
+    position: relative;
+    overflow: hidden;
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, background-position .6s ease;
+    box-shadow:
+            0 16px 36px rgba(1, 50, 28, 0.55),
+            inset 0 1px 0 rgba(255,255,255,.20);
+}
+
+.option-card::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -40%;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(255,255,255,.28), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.option-card::before {
+    content: "";
+    position: absolute;
+    top: -120%;
+    left: -60%;
+    width: 60%;
+    height: 320%;
+    background: rgba(255,255,255,.22);
+    transform: rotate(25deg);
+    transition: .7s;
+}
+
+.option-card:hover::before {
+    left: 130%;
+}
+
+.option-card:hover {
+    transform: translateY(-12px) scale(1.045);
+    background-position: 100% 50%;
+    box-shadow:
+            0 30px 58px rgba(1, 50, 28, 0.65),
+            inset 0 1px 0 rgba(255,255,255,.28);
+}
+
+.option-card:active {
+    transform: translateY(-4px) scale(.98);
+}
+
+.option-card h2 {
+    margin: 0 0 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    position: relative;
+}
+
+.option-card p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    opacity: .95;
+    position: relative;
+}
+
+/* -------- Disabled cards (CNG / Train) — muted deep green-gray -------- */
+.option-card.disabled {
+    background:
+            repeating-linear-gradient(
+                    45deg,
+                    rgba(255,255,255,0.05) 0 10px,
+                    transparent 10px 20px
+            ),
+            linear-gradient(150deg, #1a2e24, #253b2f 55%, #1e3328);
+    box-shadow: 0 10px 24px rgba(20, 40, 28, .35);
+    cursor: not-allowed;
+    filter: none;
+}
+
+.option-card.disabled::before {
+    display: none;
+}
+
+.option-card.disabled::after {
+    content: "🔒";
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 14px;
+    background: none;
+    width: auto;
+    height: auto;
+    opacity: 0.8;
+}
+
+.option-card.disabled:hover {
+    transform: none;
+    box-shadow: 0 10px 24px rgba(20, 40, 28, .35);
+}
+
+form {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    margin-top: 8px;
+}
+
+form label {
+    display: inline-block;
+    width: 150px;
+    font-weight: 700;
+    color: #374151;
+    font-size: 14.5px;
+    letter-spacing: 0.2px;
+}
+
+form input {
+    width: 230px;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14.5px;
+    color: #1f2937;
+    transition: .25s ease;
+    outline: none;
+}
+
+form input:hover {
+    border-color: #86efac;
+}
+
+form input:focus {
+    border-color: #016632;
+    background: #fff;
+    box-shadow: 0 0 0 5px rgba(1, 80, 40, 0.15);
+}
+
+button {
+    background: linear-gradient(135deg, #012b16 0%, #024a28 45%, #016632 100%);
+    color: white;
+    border: none;
+    padding: 13px 26px;
+    border-radius: 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: .3s cubic-bezier(.2,.8,.2,1);
+    box-shadow: 0 12px 26px rgba(1, 60, 32, 0.40);
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 36px rgba(1, 60, 32, 0.55);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.result-box {
+    margin-top: 32px;
+    padding: 22px 24px;
+    background: linear-gradient(135deg, #e8faf2, #c6f6e0, #a7edcc);
+    border-left: 6px solid #016632;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(1, 80, 40, 0.15);
+    text-align: left;
+    animation: rise 0.5s ease;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 24px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(1, 12, 7, 0.14);
+    text-align: left;
+}
+
+table th {
+    background: linear-gradient(135deg, #012b16 0%, #024a28 50%, #016632 100%);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+table th,
+table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #eef1f5;
+    text-align: left;
+}
+
+table tr:nth-child(even) {
+    background: #f0faf5;
+}
+
+table tr:hover {
+    background: #e0f7ec;
+    transition: background .2s ease;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+a {
+    color: #016632;
+    font-weight: 600;
+    transition: .3s;
+}
+
+a:hover {
+    color: #012b16;
+}
+
+/* ===========================
+   Beautiful Action Buttons
+   =========================== */
+
+.container > a,
+.result-box + a,
+form + a {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    height: 50px;
+    margin: 14px 8px 0;
+    padding: 0 22px;
+    text-decoration: none;
+    color: #fff !important;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #012b16 0%, #024a28 45%, #016632 100%);
+    box-shadow: 0 12px 28px rgba(1, 60, 32, 0.38);
+    transition: all .35s cubic-bezier(.2,.8,.2,1);
+    position: relative;
+    overflow: hidden;
+}
+
+.container > a::before,
+.result-box + a::before,
+form + a::before {
+    content: "";
+    position: absolute;
+    top: -120%;
+    left: -60%;
+    width: 60%;
+    height: 320%;
+    background: rgba(255,255,255,.22);
+    transform: rotate(25deg);
+    transition: .6s;
+}
+
+.container > a:hover::before,
+.result-box + a:hover::before,
+form + a:hover::before {
+    left: 130%;
+}
+
+.container > a:hover,
+.result-box + a:hover,
+form + a:hover {
+    color: white !important;
+    transform: translateY(-4px);
+    box-shadow: 0 22px 42px rgba(1, 60, 32, 0.52);
+}
+
+/* Danger / Remove buttons */
+button,
+input[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    height: 50px;
+    border-radius: 13px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+button.remove,
+button.delete {
+    background: linear-gradient(135deg,#ef4444,#dc2626);
+    box-shadow: 0 10px 22px rgba(239,68,68,.28);
+}
+
+button.remove:hover,
+button.delete:hover {
+    box-shadow: 0 18px 32px rgba(239,68,68,.4);
+}
+
+/* -------- Remove LINK inside history table — red gradient pill -------- */
+table td a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 90px;
+    height: 36px;
+    padding: 0 16px;
+    color: #fff !important;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border-radius: 10px;
+    text-decoration: none;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 8px 18px rgba(239,68,68,.28);
+    transition: all .3s cubic-bezier(.2,.8,.2,1);
+}
+
+table td a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 24px rgba(239,68,68,.4);
+    color: #fff !important;
+}
+
+/* Put Buttons in One Line */
+.button-group{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:25px;
+    flex-wrap:wrap;
+}
+
+.button-group a,
+.button-group button{
+    margin:0;
+}
+
+/* Responsive polish */
+@media (max-width: 700px) {
+    .container {
+        padding: 32px 22px;
+        border-radius: 20px;
+    }
+    h1 { font-size: 28px; }
+    form {
+        display: block;
+        width: 100%;
+    }
+    form label {
+        display: block;
+        width: 100%;
+        margin-bottom: 6px;
+    }
+    form input {
+        width: 100%;
+        margin-bottom: 14px;
+    }
+    .container > a,
+    .result-box + a,
+    form + a {
+        display: flex;
+        width: 100%;
+        margin: 10px 0 0;
+    }
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Scene 2: Track Package</title>
+</head>
+<body>
+
+    <!-- Navigation Header -->
+    <nav>
+        <a href="/book">Scene 1: Book Courier</a> |
+        <a href="/track"><b>Scene 2: Track Package</b></a> |
+        <a href="/history">Scene 3: Courier History</a>
+    </nav>
+    <hr>
+
+    <h1>Online Courier Management System</h1>
+    <h2>Scene 2: Track Package Status</h2>
+
+    <form th:action="@{/track}" th:object="${trackRequest}" method="post">
+        <label for="trackingNumber">Enter Tracking Number:</label><br>
+        <input type="text" id="trackingNumber" th:field="*{trackingNumber}" placeholder="e.g. TRK-A1B2C3D4">
+        <button type="submit">Track</button>
+        <br>
+        <span th:if="${#fields.hasErrors('trackingNumber')}" th:errors="*{trackingNumber}" style="color: red;"></span>
+    </form>
+    <br>
+
+    <div th:if="${error}">
+        <p style="color: red;" th:text="${error}"></p>
+    </div>
+
+    <div th:if="${courier}">
+        <h3>Package Details</h3>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <tr>
+                <th>Tracking Number</th>
+                <td th:text="${courier.trackingNumber}"></td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td><b th:text="${courier.status}"></b></td>
+            </tr>
+            <tr>
+                <th>Sender Name</th>
+                <td th:text="${courier.senderName}"></td>
+            </tr>
+            <tr>
+                <th>Receiver Name</th>
+                <td th:text="${courier.receiverName}"></td>
+            </tr>
+            <tr>
+                <th>Destination Address</th>
+                <td th:text="${courier.destinationAddress}"></td>
+            </tr>
+            <tr>
+                <th>Weight (KG)</th>
+                <td th:text="${courier.weightKg}"></td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
