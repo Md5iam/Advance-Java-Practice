@@ -17,8 +17,11 @@ import java.util.UUID;
 @Controller
 public class CourierController {
 
-    @Autowired
-    private CourierRepository courierRepository;
+    private final CourierRepository courierRepository;
+
+    public CourierController(CourierRepository courierRepository) {
+        this.courierRepository = courierRepository;
+    }
 
     // Scene 1: Book Courier Page
     @GetMapping({"/", "/book"})

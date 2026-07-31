@@ -1,1 +1,0 @@
-# sothik_bhara
