@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header('Create Booking')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar('bookings')}"></nav>
+
+<div class="container">
+    <div class="form-card">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">Create New Reservation</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Select guest, available room, and reservation dates</p>
+
+        <form th:action="@{/bookings/save}" th:object="${booking}" method="post">
+
+            <div class="form-group">
+                <label class="form-label" for="guest">Select Guest</label>
+                <select id="guest" th:field="*{guest.id}" class="form-select" required>
+                    <option value="">-- Choose Guest --</option>
+                    <option th:each="g : ${guests}"
+                            th:value="${g.id}"
+                            th:text="${g.name} + ' (' + ${g.email} + ')'"></option>
+                </select>
+                <div style="margin-top: 0.25rem;">
+                    <a href="/guests/new" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">+ Register new guest if not listed</a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="room">Select Available Room</label>
+                <select id="room" th:field="*{room.id}" class="form-select" required>
+                    <option value="">-- Choose Room --</option>
+                    <option th:each="r : ${availableRooms}"
+                            th:value="${r.id}"
+                            th:text="'Room ' + ${r.roomNumber} + ' - ' + ${r.type.displayName} + ' ($' + ${#numbers.formatDecimal(r.pricePerNight, 1, 2)} + '/night)'"></option>
+                </select>
+                <div th:if="${#lists.isEmpty(availableRooms)}" style="color: var(--danger); font-size: 0.85rem; margin-top: 0.25rem;">
+                    No available rooms found. Please free up a room or add a new room.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="checkInDate">Check-In Date</label>
+                <input type="date" id="checkInDate" th:field="*{checkInDate}" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="checkOutDate">Check-Out Date</label>
+                <input type="date" id="checkOutDate" th:field="*{checkOutDate}" class="form-control" required />
+            </div>
+
+            <div class="form-actions">
+                <a href="/bookings" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Confirm Booking</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

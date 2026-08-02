@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header('Bookings')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar('bookings')}"></nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Reservations &amp; Bookings</h1>
+            <p class="page-subtitle">Manage guest reservations, check-ins, and check-outs</p>
+        </div>
+        <a href="/bookings/new" class="btn btn-primary">+ Create Booking</a>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <div class="card-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Guest Name</th>
+                    <th>Room</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="booking : ${bookings}">
+                    <td style="font-weight: 700;" th:text="'#' + ${booking.id}">#1</td>
+                    <td th:text="${booking.guest.name}">Alice Johnson</td>
+                    <td th:text="${booking.room.roomNumber} + ' (' + ${booking.room.type.displayName} + ')'">101</td>
+                    <td th:text="${booking.checkInDate}">2026-08-01</td>
+                    <td th:text="${booking.checkOutDate}">2026-08-05</td>
+                    <td style="font-weight: 600;" th:text="'$' + ${#numbers.formatDecimal(booking.totalAmount, 1, 2)}">$200.00</td>
+                    <td>
+                        <span th:class="'badge badge-' + ${#strings.toLowerCase(booking.status)}"
+                              th:text="${booking.status.displayName}">CONFIRMED</span>
+                    </td>
+                    <td style="text-align: right; display: flex; gap: 0.5rem; justify-content: flex-end;">
+                        <a th:if="${booking.status.name() == 'CONFIRMED'}"
+                           th:href="@{/bookings/check-in/{id}(id=${booking.id})}"
+                           class="btn btn-success btn-sm">Check In</a>
+
+                        <a th:if="${booking.status.name() == 'CHECKED_IN'}"
+                           th:href="@{/bookings/check-out/{id}(id=${booking.id})}"
+                           class="btn btn-warning btn-sm">Check Out</a>
+
+                        <a th:if="${booking.status.name() == 'CONFIRMED' || booking.status.name() == 'CHECKED_IN'}"
+                           th:href="@{/bookings/cancel/{id}(id=${booking.id})}"
+                           onclick="return confirm('Are you sure you want to cancel this booking?')"
+                           class="btn btn-danger btn-sm">Cancel</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(bookings)}">
+                    <td colspan="8" style="text-align: center; color: var(--text-secondary);">No bookings found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

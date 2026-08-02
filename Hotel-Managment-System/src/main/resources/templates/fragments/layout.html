@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - Grand Hotel Management'">Grand Hotel Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar" th:fragment="navbar(activeTab)">
+    <a href="/" class="navbar-brand">
+        Grand<span>Hotel</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="/" th:classappend="${activeTab == 'dashboard'} ? 'active' : ''" class="nav-link">Dashboard</a></li>
+        <li><a href="/rooms" th:classappend="${activeTab == 'rooms'} ? 'active' : ''" class="nav-link">Rooms</a></li>
+        <li><a href="/guests" th:classappend="${activeTab == 'guests'} ? 'active' : ''" class="nav-link">Guests</a></li>
+        <li><a href="/bookings" th:classappend="${activeTab == 'bookings'} ? 'active' : ''" class="nav-link">Bookings</a></li>
+    </ul>
+</nav>
+
+<footer th:fragment="footer">
+    <p>&copy; 2026 Grand Hotel Management System &bull; Java Spring Boot &amp; MySQL</p>
+</footer>
+
+</body>
+</html>

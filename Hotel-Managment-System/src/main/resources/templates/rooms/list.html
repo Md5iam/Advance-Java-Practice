@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header('Rooms Directory')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar('rooms')}"></nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Room Directory</h1>
+            <p class="page-subtitle">Manage hotel room inventory, rates, and statuses</p>
+        </div>
+        <a href="/rooms/new" class="btn btn-primary">+ Add New Room</a>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <div class="card-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Room #</th>
+                    <th>Type</th>
+                    <th>Price / Night</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td style="font-weight: 700;" th:text="${room.roomNumber}">101</td>
+                    <td th:text="${room.type.displayName}">Single Room</td>
+                    <td th:text="'$' + ${#numbers.formatDecimal(room.pricePerNight, 1, 2)}">$50.00</td>
+                    <td>
+                        <span th:class="'badge badge-' + ${#strings.toLowerCase(room.status)}"
+                              th:text="${room.status.displayName}">Available</span>
+                    </td>
+                    <td th:text="${room.description}">Description...</td>
+                    <td style="text-align: right;">
+                        <a th:href="@{/rooms/edit/{id}(id=${room.id})}" class="btn btn-secondary btn-sm">Edit</a>
+                        <a th:href="@{/rooms/delete/{id}(id=${room.id})}"
+                           onclick="return confirm('Are you sure you want to delete this room?')"
+                           class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(rooms)}">
+                    <td colspan="6" style="text-align: center; color: var(--text-secondary);">No rooms registered yet.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

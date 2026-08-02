@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header('Dashboard')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar('dashboard')}"></nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-subtitle">Welcome to Grand Hotel Management System</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+            <a href="/bookings/new" class="btn btn-primary">+ New Booking</a>
+            <a href="/rooms/new" class="btn btn-secondary">+ Add Room</a>
+        </div>
+    </div>
+
+    <!-- Alert messages -->
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <!-- Stat cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-header">
+                <span>TOTAL ROOMS</span>
+            </div>
+            <div class="stat-value" th:text="${totalRooms}">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <span>AVAILABLE ROOMS</span>
+            </div>
+            <div class="stat-value" th:text="${availableRooms}">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <span>OCCUPIED ROOMS</span>
+            </div>
+            <div class="stat-value" th:text="${occupiedRooms}">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <span>TOTAL GUESTS</span>
+            </div>
+            <div class="stat-value" th:text="${totalGuests}">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <span>TOTAL REVENUE</span>
+            </div>
+            <div class="stat-value" th:text="'$' + ${#numbers.formatDecimal(totalRevenue, 1, 'COMMA', 2, 'POINT')}">$0.00</div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings Table -->
+    <div style="margin-top: 2rem;">
+        <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Recent Bookings</h2>
+        <div class="card-table">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Guest</th>
+                        <th>Room</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="booking : ${recentBookings}">
+                        <td th:text="'#' + ${booking.id}">#1</td>
+                        <td th:text="${booking.guest.name}">Guest Name</td>
+                        <td th:text="${booking.room.roomNumber} + ' (' + ${booking.room.type.displayName} + ')'">101</td>
+                        <td th:text="${booking.checkInDate}">2026-08-01</td>
+                        <td th:text="${booking.checkOutDate}">2026-08-05</td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(booking.totalAmount, 1, 2)}">$100.00</td>
+                        <td>
+                            <span th:class="'badge badge-' + ${#strings.toLowerCase(booking.status)}"
+                                  th:text="${booking.status.displayName}">CONFIRMED</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(recentBookings)}">
+                        <td colspan="7" style="text-align: center; color: var(--text-secondary);">No recent bookings found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

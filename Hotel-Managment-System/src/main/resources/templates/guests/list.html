@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header('Guests Directory')}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar('guests')}"></nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Guest Directory</h1>
+            <p class="page-subtitle">Manage registered hotel guests and contact details</p>
+        </div>
+        <a href="/guests/new" class="btn btn-primary">+ Register New Guest</a>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <div class="card-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>Phone Number</th>
+                    <th>Identity / Passport No</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="guest : ${guests}">
+                    <td th:text="'#' + ${guest.id}">#1</td>
+                    <td style="font-weight: 600;" th:text="${guest.name}">Alice Johnson</td>
+                    <td th:text="${guest.email}">alice@example.com</td>
+                    <td th:text="${guest.phone}">+1 555-0192</td>
+                    <td th:text="${guest.idNumber}">PASSPORT-A9876</td>
+                    <td style="text-align: right;">
+                        <a th:href="@{/guests/edit/{id}(id=${guest.id})}" class="btn btn-secondary btn-sm">Edit</a>
+                        <a th:href="@{/guests/delete/{id}(id=${guest.id})}"
+                           onclick="return confirm('Are you sure you want to delete this guest?')"
+                           class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(guests)}">
+                    <td colspan="6" style="text-align: center; color: var(--text-secondary);">No guests registered yet.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>

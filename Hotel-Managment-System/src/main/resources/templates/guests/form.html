@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: header(${guest.id == null ? 'Register Guest' : 'Edit Guest'})}"></head>
+<body>
+
+<nav th:replace="~{fragments/layout :: navbar('guests')}"></nav>
+
+<div class="container">
+    <div class="form-card">
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;"
+            th:text="${guest.id == null ? 'Register Guest' : 'Edit Guest'}">Register Guest</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Enter guest personal and identification details</p>
+
+        <form th:action="@{/guests/save}" th:object="${guest}" method="post">
+            <input type="hidden" th:field="*{id}" />
+
+            <div class="form-group">
+                <label class="form-label" for="name">Full Name</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="e.g. John Doe" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" th:field="*{email}" class="form-control" placeholder="e.g. john@example.com" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="phone">Phone Number</label>
+                <input type="text" id="phone" th:field="*{phone}" class="form-control" placeholder="e.g. +1 555-0199" required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="idNumber">Identity / Passport Number</label>
+                <input type="text" id="idNumber" th:field="*{idNumber}" class="form-control" placeholder="e.g. NID / Passport #" />
+            </div>
+
+            <div class="form-actions">
+                <a href="/guests" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Save Guest</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+</body>
+</html>
