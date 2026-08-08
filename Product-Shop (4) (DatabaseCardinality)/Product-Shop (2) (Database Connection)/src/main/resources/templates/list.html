@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+</head>
+<body>
+
+
+
+    <h1>Product List</h1>
+    <a href="/product/add"> Add product</a>
+    <br><br>
+    <p th:if="${productList.isEmpty()}" > No Product Available </p>
+    <table border="1" th:unless="${productList.isEmpty()}">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="it : ${productList}"> # auto iterator in cpp
+            <td th:text="${it.id}">1</td>
+            <td th:text="${it.name}">Shirt</td>
+            <td th:text="${it.category}">Men</td>
+            <td th:text="${it.price}">999.99</td>
+            <td th:text="${it.stock}">50</td>
+            <td>
+                <a href="@{'/product/edit/' +${it.id}" style="padding-right: 10px">Edit</a>
+                <a href="#">Delete</a>
+            </td>
+        </tr>
+    </table>
+    <br><br>
+
+    <a href="/product/add"> Back to Add</a>
+
+</body>
+</html>
