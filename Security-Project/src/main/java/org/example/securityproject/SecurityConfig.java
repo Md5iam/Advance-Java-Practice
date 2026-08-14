@@ -21,7 +21,13 @@ public class SecurityConfig {
                 .requestMatchers("/payment-*").fullyAuthenticated()
                 .anyRequest().authenticated())
                 .formLogin(form ->
-                        form.loginPage("/sign-in").permitAll()
+                        form.loginPage("/sign-in")
+                                .failureUrl("/privacy")
+                                .usernameParameter("mobile")
+                                .passwordParameter("pin")
+                                .defaultSuccessUrl("/dashboard")
+                                .permitAll()
+
                 )
                 .logout(Customizer.withDefaults())
                 .rememberMe(Customizer.withDefaults());
