@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Portal - CourierExpress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container my-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold">Delivery Staff Portal</h2>
+            <p class="text-muted mb-0">Assigned Zone: <span class="badge bg-primary fs-6" th:text="${employee.assignedZone}">Dhaka North</span></p>
+        </div>
+        <div>
+            <a th:href="@{/employee/pickups}" class="btn btn-success me-2"><i class="bi bi-box-arrow-in-down me-1"></i>Zone Pickups</a>
+            <a th:href="@{/employee/incoming}" class="btn btn-info me-2"><i class="bi bi-inbox me-1"></i>Incoming Parcels</a>
+            <a th:href="@{/employee/deliveries}" class="btn btn-primary"><i class="bi bi-truck me-1"></i>My Tasks</a>
+        </div>
+    </div>
+
+    <!-- Metric Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-white p-4 rounded-3 text-center">
+                <i class="bi bi-geo-alt display-4 text-warning mb-2"></i>
+                <h5 class="text-muted">Pending Zone Pickups</h5>
+                <h2 class="fw-bold text-warning" th:text="${pendingZoneCount}">0</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-white p-4 rounded-3 text-center">
+                <i class="bi bi-box-seam display-4 text-primary mb-2"></i>
+                <h5 class="text-muted">My Pickup Tasks</h5>
+                <h2 class="fw-bold text-primary" th:text="${pickupTaskCount}">0</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-white p-4 rounded-3 text-center">
+                <i class="bi bi-inbox display-4 text-info mb-2"></i>
+                <h5 class="text-muted">Incoming to Hub</h5>
+                <h2 class="fw-bold text-info" th:text="${incomingCount}">0</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm bg-white p-4 rounded-3 text-center">
+                <i class="bi bi-truck display-4 text-success mb-2"></i>
+                <h5 class="text-muted">Out for Delivery</h5>
+                <h2 class="fw-bold text-success" th:text="${deliveryTaskCount}">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Table -->
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 fw-bold">My Pickup History</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>Tracking ID</th>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>From → To</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${recentDeliveries}">
+                    <td><strong th:text="${c.trackingNumber}">TRK-12345678</strong></td>
+                    <td th:text="${c.sender.fullName}">Sender</td>
+                    <td th:text="${c.receiverName}">Receiver</td>
+                    <td>
+                        <span th:text="${c.pickupAddress.zone}">Zone A</span>
+                        <i class="bi bi-arrow-right mx-1"></i>
+                        <span th:text="${c.deliveryAddress.zone}">Zone B</span>
+                    </td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${c.status.name() == 'DELIVERED' ? 'bg-success' :
+                                              c.status.name() == 'CANCELLED' ? 'bg-danger' :
+                                              c.status.name() == 'IN_TRANSIT' ? 'bg-warning text-dark' :
+                                              c.status.name() == 'OUT_FOR_DELIVERY' ? 'bg-info' : 'bg-secondary'}"
+                              th:text="${c.status}">PENDING</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(recentDeliveries)}">
+                    <td colspan="5" class="text-center py-4 text-muted">No activity yet. Check "Zone Pickups" to claim pending parcels!</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
