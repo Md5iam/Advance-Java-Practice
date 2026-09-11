@@ -27,7 +27,7 @@ public class MathServiceTest {
 
     @AfterAll
     public static void afterAllTest(){
-        System.out.println("Called after all each test");
+        System.out.println("Called after  all each test");
     }
 
     @Test
