@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noir Mystery Case Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="logo">
+            <i class="fa-solid fa-user-secret"></i>
+            <span>Noir Mystery Case Tracker</span>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        <section class="stats-container">
+            <div class="stat-card">
+                <h2 id="stat-total">0</h2>
+                <p>Total Crime Files</p>
+            </div>
+            <div class="stat-card">
+                <h2 id="stat-open">0</h2>
+                <p>Open Active Cases</p>
+            </div>
+            <div class="stat-card">
+                <h2 id="stat-high">0</h2>
+                <p>High Priority Cases</p>
+            </div>
+        </section>
+
+        <div class="content-grid">
+            <aside class="form-section">
+                <div class="form-header">
+                    <h3 id="form-title">File New Case</h3>
+                </div>
+                <form id="crud-form">
+                    <input type="hidden" id="edit-id" value="">
+                    <div class="input-group">
+                        <label for="input-caseId">Case ID</label>
+                        <input type="text" id="input-caseId" class="form-control" placeholder="CASE-XXX" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="input-title">Case Title</label>
+                        <input type="text" id="input-title" class="form-control" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="input-detective">Lead Detective</label>
+                        <input type="text" id="input-detective" class="form-control" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="input-priority">Priority</label>
+                        <select id="input-priority" class="form-control" required>
+                            <option value="HIGH">High</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="LOW">Low</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="input-status">Status</label>
+                        <select id="input-status" class="form-control" required>
+                            <option value="OPEN">Open</option>
+                            <option value="IN_PROGRESS">In Progress</option>
+                            <option value="CLOSED">Closed</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="save-btn" class="btn-primary">File Record</button>
+                    <button type="button" id="cancel-btn" class="btn-secondary hidden">Cancel</button>
+                    <div id="form-feedback" class="feedback-msg hidden"></div>
+                </form>
+            </aside>
+
+            <main class="table-section">
+                <div class="table-toolbar">
+                    <h3>Detective Investigation Bureau</h3>
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search case or detective...">
+                        <button id="search-btn" class="btn-search" type="button">
+                            <i class="fa-solid fa-magnifying-glass"></i> Search
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Case ID</th>
+                                <th>Case Title</th>
+                                <th>Lead Detective</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
