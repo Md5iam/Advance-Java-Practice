@@ -17,7 +17,7 @@ public class Item {
     @Id
     private String id;
     private String title;
-    private ItemType type; // LOST or FOUND
+    private ItemType type;
     private String category;
     private String description;
     private String location;
