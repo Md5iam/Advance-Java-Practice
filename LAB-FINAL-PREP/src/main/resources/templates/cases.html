@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cases Tracker - LAB-FINAL-PREP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/dashboard}" class="nav-brand">
+        <span class="brand-badge">LAB-FINAL-PREP</span>
+        <span>Management Hub</span>
+    </a>
+    <ul class="nav-links">
+        <li class="nav-item"><a th:href="@{/dashboard}">Dashboard</a></li>
+        <li class="nav-item"><a th:href="@{/students}">Students (JPA)</a></li>
+        <li class="nav-item"><a th:href="@{/cases}" class="active">Cases (MongoDB)</a></li>
+        <li class="nav-item"><a th:href="@{/external-users}">Microservice & Cache</a></li>
+        <li class="nav-item"><a th:href="@{/ai}">Spring AI & JWT</a></li>
+    </ul>
+    <div class="nav-user">
+        <span class="user-badge" sec:authorize="isAuthenticated()">
+            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+            <span sec:authentication="name">User</span>
+            <span style="color: var(--gray-400);">&bull;</span>
+            <span style="font-size: 0.74rem; color: var(--primary);" sec:authentication="principal.authorities">ROLE</span>
+        </span>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="btn-logout">Sign Out</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">MongoDB Case Records Tracker</h1>
+            <p class="page-subtitle">Demonstrates Spring Data MongoDB Auditing, Optimistic Locking (@Version), and Document Persistence</p>
+        </div>
+    </div>
+
+    <div th:if="${param.success}" class="alert alert-success">
+        Case created successfully in MongoDB!
+    </div>
+
+    <div th:if="${param.updated}" class="alert alert-success">
+        Case status updated successfully!
+    </div>
+
+    <div th:if="${param.deleted}" class="alert alert-success">
+        Case deleted successfully!
+    </div>
+
+    <div th:if="${param.error}" class="alert alert-danger" th:text="${param.error}">
+        Operation error.
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}">
+        Error occurred.
+    </div>
+
+    <div class="card">
+        <div class="card-title">Register New Case Record</div>
+        <form th:action="@{/cases/add}" th:object="${caseForm}" method="post">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="caseId">Case ID (Pattern: CASE-XXX)</label>
+                    <input class="form-input" type="text" id="caseId" th:field="*{caseId}" placeholder="e.g. CASE-104" required>
+                    <div class="field-error" th:if="${#fields.hasErrors('caseId')}" th:errors="*{caseId}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="title">Case Title</label>
+                    <input class="form-input" type="text" id="title" th:field="*{title}" placeholder="e.g. Library Books Damage Incident" required>
+                    <div class="field-error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="leadDetective">Lead Detective</label>
+                    <input class="form-input" type="text" id="leadDetective" th:field="*{leadDetective}" placeholder="e.g. Detective Miller" required>
+                    <div class="field-error" th:if="${#fields.hasErrors('leadDetective')}" th:errors="*{leadDetective}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="priority">Priority</label>
+                    <select class="form-select" id="priority" th:field="*{priority}" required>
+                        <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="status">Initial Status</label>
+                    <select class="form-select" id="status" th:field="*{status}" required>
+                        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save to MongoDB</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="card-title" style="flex-wrap: wrap; gap: 12px;">
+            <span>Case Records List</span>
+            <form th:action="@{/cases}" method="get" style="display: flex; gap: 8px;">
+                <input type="text" name="search" th:value="${searchQuery}" placeholder="Search title or detective..." class="form-input" style="padding: 6px 12px; font-size: 0.85rem; width: 240px;">
+                <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                <a th:href="@{/cases}" class="btn btn-sm" style="background: var(--gray-200); color: var(--dark);">Clear</a>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Case ID</th>
+                    <th>Title</th>
+                    <th>Detective</th>
+                    <th>Priority</th>
+                    <th>Current Status</th>
+                    <th>Version (@Version)</th>
+                    <th>Update Status</th>
+                    <th sec:authorize="hasRole('ADMIN')">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="caseItem : ${cases}">
+                    <td><strong th:text="${caseItem.caseId}">CASE-101</strong></td>
+                    <td th:text="${caseItem.title}">Title</td>
+                    <td th:text="${caseItem.leadDetective}">Detective</td>
+                    <td>
+                        <span th:if="${caseItem.priority.name() == 'HIGH'}" class="badge-pill badge-high">HIGH</span>
+                        <span th:if="${caseItem.priority.name() == 'MEDIUM'}" class="badge-pill badge-medium">MEDIUM</span>
+                        <span th:if="${caseItem.priority.name() == 'LOW'}" class="badge-pill badge-low">LOW</span>
+                    </td>
+                    <td>
+                        <span th:if="${caseItem.status.name() == 'OPEN'}" class="badge-pill badge-open">OPEN</span>
+                        <span th:if="${caseItem.status.name() == 'IN_PROGRESS'}" class="badge-pill badge-in_progress">IN PROGRESS</span>
+                        <span th:if="${caseItem.status.name() == 'UNDER_REVIEW'}" class="badge-pill badge-under_review">UNDER REVIEW</span>
+                        <span th:if="${caseItem.status.name() == 'RESOLVED'}" class="badge-pill badge-resolved">RESOLVED</span>
+                        <span th:if="${caseItem.status.name() == 'CLOSED'}" class="badge-pill badge-closed">CLOSED</span>
+                    </td>
+                    <td>
+                        <code th:text="'v' + ${caseItem.version != null ? caseItem.version : 0}">v0</code>
+                    </td>
+                    <td>
+                        <form th:action="@{'/cases/status/' + ${caseItem.id}}" method="post" style="display: flex; gap: 6px; align-items: center;">
+                            <select name="status" class="form-select" style="padding: 4px 8px; font-size: 0.8rem; width: auto;">
+                                <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${s == caseItem.status}"></option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <form th:action="@{'/cases/delete/' + ${caseItem.id}}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this case?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(cases)}">
+                    <td colspan="8" style="text-align: center; color: var(--gray-400); padding: 32px;">
+                        No case records found in MongoDB.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    LAB-FINAL-PREP &bull; Advanced Java Enterprise Framework Demonstration &bull; Siam
+</footer>
+
+</body>
+</html>

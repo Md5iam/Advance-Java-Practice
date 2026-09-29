@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Registry - LAB-FINAL-PREP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/dashboard}" class="nav-brand">
+        <span class="brand-badge">LAB-FINAL-PREP</span>
+        <span>Management Hub</span>
+    </a>
+    <ul class="nav-links">
+        <li class="nav-item"><a th:href="@{/dashboard}">Dashboard</a></li>
+        <li class="nav-item"><a th:href="@{/students}" class="active">Students (JPA)</a></li>
+        <li class="nav-item"><a th:href="@{/cases}">Cases (MongoDB)</a></li>
+        <li class="nav-item"><a th:href="@{/external-users}">Microservice & Cache</a></li>
+        <li class="nav-item"><a th:href="@{/ai}">Spring AI & JWT</a></li>
+    </ul>
+    <div class="nav-user">
+        <span class="user-badge" sec:authorize="isAuthenticated()">
+            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+            <span sec:authentication="name">User</span>
+            <span style="color: var(--gray-400);">&bull;</span>
+            <span style="font-size: 0.74rem; color: var(--primary);" sec:authentication="principal.authorities">ROLE</span>
+        </span>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="btn-logout">Sign Out</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Relational Student Registry</h1>
+            <p class="page-subtitle">Demonstrates Spring Data JPA Cardinalities (@Embedded, @ElementCollection, @OneToOne, @ManyToOne, @ManyToMany)</p>
+        </div>
+    </div>
+
+    <div th:if="${param.success}" class="alert alert-success">
+        Student created successfully!
+    </div>
+
+    <div th:if="${param.deleted}" class="alert alert-success">
+        Student deleted successfully!
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}">
+        Error occurred.
+    </div>
+
+    <div class="card">
+        <div class="card-title">Enroll New Student</div>
+        <form th:action="@{/students/add}" th:object="${studentForm}" method="post">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="studentId">Student ID</label>
+                    <input class="form-input" type="text" id="studentId" th:field="*{studentId}" placeholder="e.g. 2021-1-60-003" required>
+                    <div class="field-error" th:if="${#fields.hasErrors('studentId')}" th:errors="*{studentId}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name</label>
+                    <input class="form-input" type="text" id="name" th:field="*{name}" placeholder="e.g. Tanvir Ahmed" required>
+                    <div class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="gpa">GPA (0.00 - 4.00)</label>
+                    <input class="form-input" type="number" step="0.01" min="0.0" max="4.0" id="gpa" th:field="*{gpa}" placeholder="3.75" required>
+                    <div class="field-error" th:if="${#fields.hasErrors('gpa')}" th:errors="*{gpa}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="departmentId">Department (@ManyToOne)</label>
+                    <select class="form-select" id="departmentId" th:field="*{departmentId}" required>
+                        <option value="">-- Select Department --</option>
+                        <option th:each="dept : ${departments}" th:value="${dept.id}" th:text="${dept.name} + ' (' + ${dept.buildingCode} + ')'"></option>
+                    </select>
+                    <div class="field-error" th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="mobileNumber">Mobile Number (@ElementCollection)</label>
+                    <input class="form-input" type="text" id="mobileNumber" th:field="*{mobileNumber}" placeholder="+8801700000000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="streetAddress">Street Address (@Embedded)</label>
+                    <input class="form-input" type="text" id="streetAddress" th:field="*{streetAddress}" placeholder="Road 1, Block B">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="city">City</label>
+                    <input class="form-input" type="text" id="city" th:field="*{city}" placeholder="Dhaka">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="guardianName">Guardian Name (@OneToOne)</label>
+                    <input class="form-input" type="text" id="guardianName" th:field="*{guardianName}" placeholder="Parent / Guardian Name">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Student</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="card-title">
+            <span>Enrolled Students Registry</span>
+            <span style="font-size: 0.85rem; font-weight: 500; color: var(--gray-600);" th:text="'Total: ' + ${#lists.size(students)}">Total: 0</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>GPA</th>
+                    <th>Department</th>
+                    <th>Address (Embedded)</th>
+                    <th>Contacts (Collection)</th>
+                    <th>Guardian</th>
+                    <th>Courses</th>
+                    <th sec:authorize="hasRole('ADMIN')">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${students}">
+                    <td><strong th:text="${student.studentId}">ID</strong></td>
+                    <td th:text="${student.name}">Name</td>
+                    <td>
+                        <span th:if="${student.gpa >= 3.5}" class="badge-pill badge-resolved" th:text="${student.gpa}">3.85</span>
+                        <span th:unless="${student.gpa >= 3.5}" class="badge-pill badge-subtle" th:text="${student.gpa}">3.20</span>
+                    </td>
+                    <td>
+                        <span th:if="${student.department}" th:text="${student.department.name}">Dept</span>
+                        <span th:unless="${student.department}" style="color: var(--gray-400);">None</span>
+                    </td>
+                    <td>
+                        <span th:if="${student.address}" th:text="${student.address.streetAddress} + ', ' + ${student.address.city}">Address</span>
+                        <span th:unless="${student.address}" style="color: var(--gray-400);">N/A</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                            <span th:each="m : ${student.mobileNumbers}" class="badge-pill badge-subtle" style="font-size: 0.7rem;" th:text="${m}">+880...</span>
+                            <span th:if="${#lists.isEmpty(student.mobileNumbers)}" style="color: var(--gray-400);">None</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span th:if="${student.guardian}" th:text="${student.guardian.name}">Guardian</span>
+                        <span th:unless="${student.guardian}" style="color: var(--gray-400);">None</span>
+                    </td>
+                    <td>
+                        <div style="display: flex; flex-wrap: wrap; gap: 4px;">
+                            <span th:each="c : ${student.courses}" class="badge-pill badge-open" style="font-size: 0.7rem;" th:text="${c.courseCode}">CSE101</span>
+                            <span th:if="${#lists.isEmpty(student.courses)}" style="color: var(--gray-400);">None</span>
+                        </div>
+                    </td>
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <form th:action="@{'/students/delete/' + ${student.id}}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(students)}">
+                    <td colspan="9" style="text-align: center; color: var(--gray-400); padding: 32px;">
+                        No students enrolled yet.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    LAB-FINAL-PREP &bull; Advanced Java Enterprise Framework Demonstration &bull; Siam
+</footer>
+
+</body>
+</html>

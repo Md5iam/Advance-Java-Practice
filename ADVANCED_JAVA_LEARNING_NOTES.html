@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Java & Spring Boot - Master Study Notes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-bg: #eef2ff;
+            --secondary: #0ea5e9;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --gray-800: #1e293b;
+            --gray-700: #334155;
+            --gray-600: #475569;
+            --gray-500: #64748b;
+            --gray-300: #cbd5e1;
+            --gray-200: #e2e8f0;
+            --gray-100: #f1f5f9;
+            --gray-50: #f8fafc;
+            --code-bg: #282a36;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--gray-800);
+            background-color: #ffffff;
+            line-height: 1.68;
+            font-size: 15px;
+            padding: 40px;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* Document Header / Cover banner */
+        .document-header {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%);
+            color: #ffffff;
+            padding: 44px 48px;
+            border-radius: 18px;
+            margin-bottom: 40px;
+            box-shadow: 0 16px 36px -12px rgba(67, 56, 202, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .document-header::after {
+            content: "";
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+        }
+
+        .document-header h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.025em;
+            margin-bottom: 12px;
+            color: #ffffff;
+            border: none;
+            padding: 0;
+        }
+
+        .document-header .subtitle {
+            font-size: 1.05rem;
+            color: #c7d2fe;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .badge-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .badge-primary {
+            background-color: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .badge-cyan {
+            background-color: rgba(14, 165, 233, 0.25);
+            color: #bae6fd;
+            border: 1px solid rgba(14, 165, 233, 0.4);
+        }
+
+        .badge-emerald {
+            background-color: rgba(16, 185, 129, 0.25);
+            color: #a7f3d0;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        /* Headings */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--dark);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-top: 36px;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: 1.85rem;
+            border-bottom: 2.5px solid var(--primary);
+            padding-bottom: 10px;
+            margin-top: 48px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h2 {
+            font-size: 1.45rem;
+            border-bottom: 1.5px solid var(--gray-200);
+            padding-bottom: 8px;
+            margin-top: 36px;
+            color: #1e1b4b;
+        }
+
+        h3 {
+            font-size: 1.18rem;
+            color: #3730a3;
+            margin-top: 26px;
+        }
+
+        h4 {
+            font-size: 1.05rem;
+            color: var(--gray-700);
+        }
+
+        p {
+            margin-bottom: 14px;
+            color: var(--gray-700);
+        }
+
+        /* Blockquotes / Callouts */
+        blockquote {
+            background: #f8faff;
+            border-left: 4.5px solid var(--primary);
+            padding: 16px 20px;
+            margin: 18px 0;
+            border-radius: 0 10px 10px 0;
+            color: var(--gray-700);
+            font-size: 0.95rem;
+        }
+
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Table of Contents & Lists */
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+            color: var(--gray-700);
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        li > ul, li > ol {
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.15s ease;
+        }
+
+        a:hover {
+            color: #3730a3;
+            text-decoration: underline;
+        }
+
+        /* Inline code */
+        code {
+            font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+            background-color: var(--gray-100);
+            color: #d946ef;
+            padding: 2.5px 6.5px;
+            border-radius: 5px;
+            font-size: 0.88em;
+            font-weight: 500;
+            border: 1px solid var(--gray-200);
+        }
+
+        /* Syntax Highlighted Code Blocks */
+        .highlight {
+            background-color: var(--code-bg);
+            border-radius: 12px;
+            margin: 20px 0 24px 0;
+            padding: 18px 22px;
+            overflow-x: auto;
+            box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.18);
+            border: 1px solid #44475a;
+            position: relative;
+        }
+
+        .highlight pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+            font-size: 0.86rem;
+            line-height: 1.62;
+            color: #f8f8f2;
+        }
+
+        .highlight code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            border: none;
+            font-size: inherit;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 22px 0 28px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.06);
+            font-size: 0.92rem;
+        }
+
+        thead {
+            background: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+        }
+
+        th {
+            color: #1e293b;
+            font-weight: 700;
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--gray-300);
+            letter-spacing: 0.01em;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-200);
+            color: var(--gray-700);
+            vertical-align: top;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fcfdfe;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        hr {
+            border: none;
+            border-top: 1.5px solid var(--gray-200);
+            margin: 36px 0;
+        }
+
+        /* Pygments Dracula Syntax Theme */
+        pre { line-height: 125%; }
+td.linenos .normal { color: #f1fa8c; background-color: #44475a; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #f1fa8c; background-color: #44475a; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #50fa7b; background-color: #6272a4; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #50fa7b; background-color: #6272a4; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #44475a }
+.highlight { background: #282a36; color: #F8F8F2 }
+.highlight .c { color: #6272A4 } /* Comment */
+.highlight .err { color: #F8F8F2 } /* Error */
+.highlight .g { color: #F8F8F2 } /* Generic */
+.highlight .k { color: #FF79C6 } /* Keyword */
+.highlight .l { color: #F8F8F2 } /* Literal */
+.highlight .n { color: #F8F8F2 } /* Name */
+.highlight .o { color: #FF79C6 } /* Operator */
+.highlight .x { color: #F8F8F2 } /* Other */
+.highlight .p { color: #F8F8F2 } /* Punctuation */
+.highlight .ch { color: #6272A4 } /* Comment.Hashbang */
+.highlight .cm { color: #6272A4 } /* Comment.Multiline */
+.highlight .cp { color: #FF79C6 } /* Comment.Preproc */
+.highlight .cpf { color: #6272A4 } /* Comment.PreprocFile */
+.highlight .c1 { color: #6272A4 } /* Comment.Single */
+.highlight .cs { color: #6272A4 } /* Comment.Special */
+.highlight .gd { color: #8B080B } /* Generic.Deleted */
+.highlight .ge { color: #F8F8F2; text-decoration: underline } /* Generic.Emph */
+.highlight .ges { color: #F8F8F2; text-decoration: underline } /* Generic.EmphStrong */
+.highlight .gr { color: #F8F8F2 } /* Generic.Error */
+.highlight .gh { color: #F8F8F2; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #F8F8F2; font-weight: bold } /* Generic.Inserted */
+.highlight .go { color: #44475A } /* Generic.Output */
+.highlight .gp { color: #F8F8F2 } /* Generic.Prompt */
+.highlight .gs { color: #F8F8F2 } /* Generic.Strong */
+.highlight .gu { color: #F8F8F2; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #F8F8F2 } /* Generic.Traceback */
+.highlight .kc { color: #FF79C6 } /* Keyword.Constant */
+.highlight .kd { color: #8BE9FD; font-style: italic } /* Keyword.Declaration */
+.highlight .kn { color: #FF79C6 } /* Keyword.Namespace */
+.highlight .kp { color: #FF79C6 } /* Keyword.Pseudo */
+.highlight .kr { color: #FF79C6 } /* Keyword.Reserved */
+.highlight .kt { color: #8BE9FD } /* Keyword.Type */
+.highlight .ld { color: #F8F8F2 } /* Literal.Date */
+.highlight .m { color: #FFB86C } /* Literal.Number */
+.highlight .s { color: #BD93F9 } /* Literal.String */
+.highlight .na { color: #50FA7B } /* Name.Attribute */
+.highlight .nb { color: #8BE9FD; font-style: italic } /* Name.Builtin */
+.highlight .nc { color: #50FA7B } /* Name.Class */
+.highlight .no { color: #F8F8F2 } /* Name.Constant */
+.highlight .nd { color: #F8F8F2 } /* Name.Decorator */
+.highlight .ni { color: #F8F8F2 } /* Name.Entity */
+.highlight .ne { color: #F8F8F2 } /* Name.Exception */
+.highlight .nf { color: #50FA7B } /* Name.Function */
+.highlight .nl { color: #8BE9FD; font-style: italic } /* Name.Label */
+.highlight .nn { color: #F8F8F2 } /* Name.Namespace */
+.highlight .nx { color: #F8F8F2 } /* Name.Other */
+.highlight .py { color: #F8F8F2 } /* Name.Property */
+.highlight .nt { color: #FF79C6 } /* Name.Tag */
+.highlight .nv { color: #8BE9FD; font-style: italic } /* Name.Variable */
+.highlight .ow { color: #FF79C6 } /* Operator.Word */
+.highlight .pm { color: #F8F8F2 } /* Punctuation.Marker */
+.highlight .w { color: #F8F8F2 } /* Text.Whitespace */
+.highlight .mb { color: #FFB86C } /* Literal.Number.Bin */
+.highlight .mf { color: #FFB86C } /* Literal.Number.Float */
+.highlight .mh { color: #FFB86C } /* Literal.Number.Hex */
+.highlight .mi { color: #FFB86C } /* Literal.Number.Integer */
+.highlight .mo { color: #FFB86C } /* Literal.Number.Oct */
+.highlight .sa { color: #BD93F9 } /* Literal.String.Affix */
+.highlight .sb { color: #BD93F9 } /* Literal.String.Backtick */
+.highlight .sc { color: #BD93F9 } /* Literal.String.Char */
+.highlight .dl { color: #BD93F9 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BD93F9 } /* Literal.String.Doc */
+.highlight .s2 { color: #BD93F9 } /* Literal.String.Double */
+.highlight .se { color: #BD93F9 } /* Literal.String.Escape */
+.highlight .sh { color: #BD93F9 } /* Literal.String.Heredoc */
+.highlight .si { color: #BD93F9 } /* Literal.String.Interpol */
+.highlight .sx { color: #BD93F9 } /* Literal.String.Other */
+.highlight .sr { color: #BD93F9 } /* Literal.String.Regex */
+.highlight .s1 { color: #BD93F9 } /* Literal.String.Single */
+.highlight .ss { color: #BD93F9 } /* Literal.String.Symbol */
+.highlight .bp { color: #F8F8F2; font-style: italic } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #50FA7B } /* Name.Function.Magic */
+.highlight .vc { color: #8BE9FD; font-style: italic } /* Name.Variable.Class */
+.highlight .vg { color: #8BE9FD; font-style: italic } /* Name.Variable.Global */
+.highlight .vi { color: #8BE9FD; font-style: italic } /* Name.Variable.Instance */
+.highlight .vm { color: #8BE9FD; font-style: italic } /* Name.Variable.Magic */
+.highlight .il { color: #FFB86C } /* Literal.Number.Integer.Long */
+
+        /* Print & PDF Export Optimization */
+        @page {
+            size: A4 portrait;
+            margin: 15mm 12mm 15mm 12mm;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                max-width: 100%;
+                font-size: 13.5px;
+                color: #000000;
+                background: #ffffff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .document-header {
+                padding: 30px 32px;
+                border-radius: 12px;
+                margin-bottom: 28px;
+                box-shadow: none;
+                page-break-after: avoid;
+            }
+
+            h1, h2, h3 {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+
+            .highlight, table, blockquote {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            tr {
+                page-break-inside: avoid;
+            }
+
+            a {
+                color: #312e81;
+                text-decoration: none;
+            }
+
+            a[href^="http"]::after {
+                content: "";
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header class="document-header">
+    <h1>Advanced Java & Spring Boot</h1>
+    <div class="subtitle">Complete Master Study Notes & Architectural Reference Guide</div>
+    <div class="badge-bar">
+        <span class="badge badge-primary">Java 17+ Records & Sealed</span>
+        <span class="badge badge-cyan">Spring Boot 3</span>
+        <span class="badge badge-emerald">Spring Data JPA & Mongo</span>
+        <span class="badge badge-primary">Spring Security 6 & JWT</span>
+        <span class="badge badge-cyan">Finite State Machine (FSM)</span>
+        <span class="badge badge-emerald">JUnit 5 Testing</span>
+    </div>
+</header>
+
+<main>
+<h1 id="advanced-java-spring-boot-complete-master-study-notes-reference-guide">Advanced Java &amp; Spring Boot - Complete Master Study Notes &amp; Reference Guide</h1>
+<blockquote>
+<p><strong>Repository:</strong> <code>Advance-Java-Practice</code><br />
+<strong>Author:</strong> Siam<br />
+<strong>Topic:</strong> Comprehensive Notes on Advanced Java, Spring Boot, JPA/Hibernate, MongoDB, Security (JWT &amp; Form), Cloud Services, Testing &amp; Enterprise Patterns</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-learning-journey--architectural-roadmap">Learning Journey &amp; Architectural Roadmap</a></li>
+<li><a href="#2-modern-java-java-17-language-features">Modern Java (Java 17+) Language Features</a></li>
+<li><a href="#java-records--compact-constructors">Java Records &amp; Compact Constructors</a></li>
+<li><a href="#sealed-classes--permitted-subclasses">Sealed Classes &amp; Permitted Subclasses</a></li>
+<li><a href="#lombok-productivity-suite">Lombok Productivity Suite</a></li>
+<li><a href="#3-spring-boot-core--web-mvc-framework">Spring Boot Core &amp; Web MVC Framework</a></li>
+<li><a href="#core-stereotype-annotations--inversion-of-control-ioc">Core Stereotype Annotations &amp; Inversion of Control (IoC)</a></li>
+<li><a href="#dependency-injection-best-practices">Dependency Injection Best Practices</a></li>
+<li><a href="#restful-controllers-vs-traditional-mvc-controllers">RESTful Controllers vs Traditional MVC Controllers</a></li>
+<li><a href="#request-parameter-handling">Request Parameter Handling</a></li>
+<li><a href="#form-submission-thymeleaf--model-binding">Form Submission, Thymeleaf &amp; Model Binding</a></li>
+<li><a href="#4-relational-persistence-spring-data-jpa--hibernate">Relational Persistence: Spring Data JPA &amp; Hibernate</a></li>
+<li><a href="#entity-mapping--identifiers">Entity Mapping &amp; Identifiers</a></li>
+<li><a href="#embedded-objects-vs-element-collections">Embedded Objects vs Element Collections</a></li>
+<li><a href="#entity-cardinality--relational-mappings">Entity Cardinality &amp; Relational Mappings</a></li>
+<li><a href="#cascade-types--fetch-strategies">Cascade Types &amp; Fetch Strategies</a></li>
+<li><a href="#repository-abstraction-derived-queries--custom-jpql">Repository Abstraction, Derived Queries &amp; Custom JPQL</a></li>
+<li><a href="#declarative-transactions-transactional">Declarative Transactions (@Transactional)</a></li>
+<li><a href="#5-nosql-persistence-spring-data-mongodb">NoSQL Persistence: Spring Data MongoDB</a></li>
+<li><a href="#document-mapping--indexing">Document Mapping &amp; Indexing</a></li>
+<li><a href="#auditing-enablemongoauditing-createddate-lastmodifieddate">Auditing (@EnableMongoAuditing, @CreatedDate, @LastModifiedDate)</a></li>
+<li><a href="#optimistic-locking-with-version">Optimistic Locking with @Version</a></li>
+<li><a href="#custom-json-queries-or-ne-regex">Custom JSON Queries ($or, $ne, regex)</a></li>
+<li><a href="#6-enterprise-rest-api-design-dtos--error-handling">Enterprise REST API Design, DTOs &amp; Error Handling</a></li>
+<li><a href="#the-dto-data-transfer-object-pattern">The DTO (Data Transfer Object) Pattern</a></li>
+<li><a href="#input-validation-jakarta-bean-validation">Input Validation (Jakarta Bean Validation)</a></li>
+<li><a href="#centralized-exception-handling-restcontrolleradvice">Centralized Exception Handling (@RestControllerAdvice)</a></li>
+<li><a href="#cross-origin-resource-sharing-cors-configuration">Cross-Origin Resource Sharing (CORS) Configuration</a></li>
+<li><a href="#7-cloud-integrations-media-management-with-cloudinary">Cloud Integrations: Media Management with Cloudinary</a></li>
+<li><a href="#multipart-file-uploads">Multipart File Uploads</a></li>
+<li><a href="#cloudinary-service-implementation">Cloudinary Service Implementation</a></li>
+<li><a href="#8-microservices-external-rest-apis--caching">Microservices, External REST APIs &amp; Caching</a></li>
+<li><a href="#consuming-external-rest-apis-with-resttemplate">Consuming External REST APIs with RestTemplate</a></li>
+<li><a href="#spring-cache-abstraction-enablecaching-cacheable-cacheevict">Spring Cache Abstraction (@EnableCaching, @Cacheable, @CacheEvict)</a></li>
+<li><a href="#9-spring-security-6-form-based--stateless-jwt">Spring Security 6: Form-Based &amp; Stateless JWT</a></li>
+<li><a href="#security-architecture-overview">Security Architecture Overview</a></li>
+<li><a href="#password-encoding-with-bcrypt">Password Encoding with BCrypt</a></li>
+<li><a href="#form-based-security-with-custom-authenticationprovider">Form-Based Security with Custom AuthenticationProvider</a></li>
+<li><a href="#stateless-jwt-architecture-filter-claims-token-lifecycle">Stateless JWT Architecture (Filter, Claims, Token Lifecycle)</a></li>
+<li><a href="#method-level-security-enablemethodsecurity-preauthorize">Method-Level Security (@EnableMethodSecurity, @PreAuthorize)</a></li>
+<li><a href="#10-advanced-enterprise-design-patterns">Advanced Enterprise Design Patterns</a><ul>
+<li><a href="#finite-state-machine-fsm-domain-workflow">Finite State Machine (FSM) Domain Workflow</a></li>
+<li><a href="#pagination--sorting-pageable--paget">Pagination &amp; Sorting (Pageable &amp; Page<T>)</a></li>
+<li><a href="#automatic-master-data-seeding-commandlinerunner">Automatic Master Data Seeding (CommandLineRunner)</a></li>
+</ul>
+</li>
+<li><a href="#11-unit--integration-testing-junit-5--spring-boot-test">Unit &amp; Integration Testing (JUnit 5 &amp; Spring Boot Test)</a><ul>
+<li><a href="#test-lifecycle-annotations">Test Lifecycle Annotations</a></li>
+<li><a href="#assertions--verification">Assertions &amp; Verification</a></li>
+<li><a href="#testing-spring-data-services">Testing Spring Data Services</a></li>
+</ul>
+</li>
+<li><a href="#12-workspace-project-inventory--reference-map">Workspace Project Inventory &amp; Reference Map</a></li>
+</ol>
+<hr />
+<h2 id="1-learning-journey-architectural-roadmap">1. Learning Journey &amp; Architectural Roadmap</h2>
+<p>The code in this repository traces an end-to-end evolution from core language primitives to full-scale enterprise software architecture:</p>
+<div class="highlight"><pre><span></span><code>[Modern Java: Records &amp; Sealed Classes]
+               │
+               ▼
+[Spring Boot MVC &amp; Web Controllers] ──&gt; [Thymeleaf + Form Validation]
+               │
+               ▼
+┌───────────────────────────────┴───────────────────────────────┐
+▼                                                               ▼
+[Relational Database: JPA / MySQL]               [NoSQL Database: MongoDB]
+- Entity Mappings &amp; @Id                          - @Document &amp; @Indexed
+- Embedded Objects &amp; @ElementCollection          - Auditing &amp; Optimistic Locking
+- Cardinality (@OneToOne, @ManyToOne, @OneToMany) - Spring Data MongoRepository
+- JPQL Queries &amp; @Transactional                  - Custom JSON Queries
+└───────────────────────────────┬───────────────────────────────┘
+                                │
+                                ▼
+         [Enterprise REST APIs &amp; Error Handling]
+         - DTO Pattern &amp; Bean Validation (@Valid)
+         - Global Exception Handler (@RestControllerAdvice)
+         - Cloudinary Media / Image Uploads
+                                │
+                                ▼
+         [Microservices, External APIs &amp; Caching]
+         - RestTemplate Consumption of Third-Party REST APIs
+         - Spring Cache Abstraction (@Cacheable, @CacheEvict)
+                                │
+                                ▼
+         [Spring Security 6 Architecture]
+         - Form-Based + Custom AuthenticationProvider
+         - Stateless JWT Authentication (Filter Chain, Tokens)
+         - Role-Based Access Control (RBAC) &amp; Method Security
+                                │
+                                ▼
+         [Advanced Domain Architecture]
+         - Finite State Machine (Clinical FSM Workflow)
+         - Pagination &amp; Sorting (Pageable, Page&lt;T&gt;)
+         - Database Seeding &amp; Optimistic Concurrency Control
+</code></pre></div>
+
+<hr />
+<h2 id="2-modern-java-java-17-language-features">2. Modern Java (Java 17+) Language Features</h2>
+<p>Found in project: <code>Record</code></p>
+<h3 id="java-records-compact-constructors">Java Records &amp; Compact Constructors</h3>
+<p>Records were introduced to eliminate boilerplate when defining immutable data carriers:
+- Automatically provides <code>private final</code> fields, canonical constructor, getters (<code>name()</code>, <code>gpa()</code>), <code>equals()</code>, <code>hashCode()</code>, and <code>toString()</code>.
+- Supports <strong>Compact Constructors</strong> for normalization and validation without repeating parameter assignments.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.example.DTO</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">StudentGpaRecord</span><span class="p">(</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">gpa</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">StudentGpaRecord</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">isBlank</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">"Student name cannot be empty"</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">toUpperCase</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">gpa</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">4.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">gpa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="sealed-classes-permitted-subclasses">Sealed Classes &amp; Permitted Subclasses</h3>
+<p>Sealed classes allow superclasses or interfaces to strictly control which classes can extend or implement them, enabling safe pattern matching and domain modeling.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">org.example</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Car</span><span class="w"> </span><span class="kd">permits</span><span class="w"> </span><span class="n">ElectricCar</span><span class="p">,</span><span class="w"> </span><span class="n">WaterCar</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">brand</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">color</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ElectricCar</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Car</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">batteryCapacityKWh</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kd">class</span> <span class="nc">WaterCar</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Car</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">propellerSize</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="lombok-productivity-suite">Lombok Productivity Suite</h3>
+<p>Lombok reduces boilerplate across entities and DTOs at compile-time:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Data</code></td>
+<td>Generates <code>@Getter</code>, <code>@Setter</code>, <code>@ToString</code>, <code>@EqualsAndHashCode</code>, and <code>@RequiredArgsConstructor</code>.</td>
+</tr>
+<tr>
+<td><code>@NoArgsConstructor</code></td>
+<td>Generates a zero-argument constructor (required by Hibernate/JPA and MongoDB reflection).</td>
+</tr>
+<tr>
+<td><code>@AllArgsConstructor</code></td>
+<td>Generates a constructor initializing all fields.</td>
+</tr>
+<tr>
+<td><code>@Builder</code></td>
+<td>Implements the Builder Pattern for readable, fluent object creation.</td>
+</tr>
+<tr>
+<td><code>@Builder.Default</code></td>
+<td>Ensures default field values are preserved when using the builder.</td>
+</tr>
+<tr>
+<td><code>@RequiredArgsConstructor</code></td>
+<td>Generates a constructor for all <code>final</code> fields (standard for Spring Dependency Injection).</td>
+</tr>
+<tr>
+<td><code>@Slf4j</code></td>
+<td>Injects an SLF4J logger instance (<code>log.info(...)</code>, <code>log.error(...)</code>).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-spring-boot-core-web-mvc-framework">3. Spring Boot Core &amp; Web MVC Framework</h2>
+<p>Found in projects: <code>Hello Spring Boot</code>, <code>courierDemo</code>, <code>Hello Rest</code></p>
+<h3 id="core-stereotype-annotations-inversion-of-control-ioc">Core Stereotype Annotations &amp; Inversion of Control (IoC)</h3>
+<p>Spring manages beans in the ApplicationContext:
+- <code>@SpringBootApplication</code>: Meta-annotation combining <code>@Configuration</code>, <code>@EnableAutoConfiguration</code>, and <code>@ComponentScan</code>.
+- <code>@Component</code>: Generic Spring-managed component.
+- <code>@Service</code>: Marks business logic layer.
+- <code>@Repository</code>: Marks persistence layer (enables automatic exception translation into Spring <code>DataAccessException</code>).
+- <code>@Controller</code>: Handles Web/HTML views (returns view names to Thymeleaf/JSP).
+- <code>@RestController</code>: Combines <code>@Controller</code> and <code>@ResponseBody</code> (returns serialized JSON/XML).
+- <code>@Configuration</code> + <code>@Bean</code>: Declares explicit bean definitions (e.g., custom security filters, external clients).</p>
+<h3 id="dependency-injection-best-practices">Dependency Injection Best Practices</h3>
+<p>Prefer <strong>Constructor Injection</strong> using Lombok <code>@RequiredArgsConstructor</code> over field injection (<code>@Autowired</code>):
+- Immutable dependencies (<code>private final</code>).
+- Prevents <code>NullPointerException</code> during standalone unit testing.
+- Guarantees objects are fully initialized upon instantiation.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">"/api/products"</span><span class="p">)</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ProductController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ProductService</span><span class="w"> </span><span class="n">productService</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="restful-controllers-vs-traditional-mvc-controllers">RESTful Controllers vs Traditional MVC Controllers</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@Controller</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">WebController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/dashboard"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">dashboard</span><span class="p">(</span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"username"</span><span class="p">,</span><span class="w"> </span><span class="s">"Siam"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"dashboard"</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">"/api/v1/items"</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ItemRestController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@GetMapping</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Item</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getItems</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">itemService</span><span class="p">.</span><span class="na">getAll</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="request-parameter-handling">Request Parameter Handling</h3>
+<ul>
+<li><code>@PathVariable</code>: Extracts values from URI template paths: <code>/api/cases/{id}</code> -&gt; <code>public Case getById(@PathVariable String id)</code></li>
+<li><code>@RequestParam</code>: Extracts query parameters: <code>/api/cases?status=OPEN</code> -&gt; <code>public List&lt;Case&gt; getByStatus(@RequestParam String status)</code></li>
+<li><code>@RequestBody</code>: Deserializes incoming JSON request body into a Java object: <code>public Case create(@RequestBody CaseDTO dto)</code></li>
+<li><code>@ModelAttribute</code>: Binds form parameters from HTML POST requests to a model object.</li>
+</ul>
+<h3 id="form-submission-thymeleaf-model-binding">Form Submission, Thymeleaf &amp; Model Binding</h3>
+<p>Found in <code>courierDemo/CourierController.java</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Controller</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CourierController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">CourierRepository</span><span class="w"> </span><span class="n">courierRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/book"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">showBookForm</span><span class="p">(</span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"courier"</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Courier</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"book"</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@PostMapping</span><span class="p">(</span><span class="s">"/book"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">processBooking</span><span class="p">(</span>
+<span class="w">            </span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@ModelAttribute</span><span class="p">(</span><span class="s">"courier"</span><span class="p">)</span><span class="w"> </span><span class="n">Courier</span><span class="w"> </span><span class="n">courier</span><span class="p">,</span>
+<span class="w">            </span><span class="n">BindingResult</span><span class="w"> </span><span class="n">bindingResult</span><span class="p">,</span><span class="w"> </span>
+<span class="w">            </span><span class="n">Model</span><span class="w"> </span><span class="n">model</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bindingResult</span><span class="p">.</span><span class="na">hasErrors</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">"book"</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">courierRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">courier</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"redirect:/history"</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="4-relational-persistence-spring-data-jpa-hibernate">4. Relational Persistence: Spring Data JPA &amp; Hibernate</h2>
+<p>Found in projects: <code>Product-Shop (1)-(4)</code>, <code>Hotel-Managment-System</code>, <code>Security-Project</code></p>
+<h3 id="entity-mapping-identifiers">Entity Mapping &amp; Identifiers</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"rooms"</span><span class="p">)</span>
+<span class="nd">@Data</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Room</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"room_number"</span><span class="p">,</span><span class="w"> </span><span class="n">nullable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"> </span><span class="n">unique</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">roomNumber</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Enumerated</span><span class="p">(</span><span class="n">EnumType</span><span class="p">.</span><span class="na">STRING</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"room_type"</span><span class="p">,</span><span class="w"> </span><span class="n">nullable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">RoomType</span><span class="w"> </span><span class="n">type</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"price_per_night"</span><span class="p">,</span><span class="w"> </span><span class="n">nullable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Double</span><span class="w"> </span><span class="n">pricePerNight</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="embedded-objects-vs-element-collections">Embedded Objects vs Element Collections</h3>
+<p>Found in <code>Product-Shop (4) (DatabaseCardinality)/Student.java</code>:
+- <code>@Embeddable</code> &amp; <code>@Embedded</code>: Merges properties of a value object directly into the host entity table (no separate table or foreign key).
+- <code>@ElementCollection</code>: Creates a joined secondary table for collections of basic types (Strings, Integers) or embeddables without an independent entity identity.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Embeddable</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Address</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"street_address"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">streetAddress</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">country</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"student_data"</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Embedded</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Address</span><span class="w"> </span><span class="n">address</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@ElementCollection</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">mobileNumber</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="entity-cardinality-relational-mappings">Entity Cardinality &amp; Relational Mappings</h3>
+<div class="highlight"><pre><span></span><code>┌────────────────┐          @OneToOne           ┌────────────────┐
+│    Student     │ ───────────────────────────&gt; │    Guardian    │
+└────────────────┘                              └────────────────┘
+        │
+        │ @ManyToOne
+        ▼
+┌────────────────┐
+│   Department   │
+└────────────────┘
+        │
+        │ @OneToMany
+        ▼
+┌────────────────┐
+│     Course     │
+└────────────────┘
+</code></pre></div>
+
+<ol>
+<li><strong>One-to-One (<code>@OneToOne</code>):</strong>
+   <code>java
+   @OneToOne
+   private Guardian guardian;</code></li>
+<li><strong>Many-to-One (<code>@ManyToOne</code>):</strong>
+   <code>java
+   @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "guest_id", nullable = false)
+   private Guest guest;</code></li>
+<li><strong>One-to-Many (<code>@OneToMany</code>):</strong>
+   <code>java
+   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   private List&lt;Course&gt; courses;</code></li>
+</ol>
+<h3 id="cascade-types-fetch-strategies">Cascade Types &amp; Fetch Strategies</h3>
+<ul>
+<li><strong>CascadeType:</strong></li>
+<li><code>CascadeType.ALL</code>: Propagates PERSIST, MERGE, REMOVE, REFRESH, DETACH from parent to children.</li>
+<li><code>CascadeType.PERSIST</code>: Only saves children when parent is saved.</li>
+<li><strong>FetchType:</strong></li>
+<li><code>FetchType.LAZY</code>: Child data loaded on-demand when getter is called (prevents N+1 query performance bottleneck).</li>
+<li><code>FetchType.EAGER</code>: Joined/queried immediately when loading the parent.</li>
+</ul>
+<h3 id="repository-abstraction-derived-queries-custom-jpql">Repository Abstraction, Derived Queries &amp; Custom JPQL</h3>
+<p>Found in <code>Hotel-Managment-System/BookingRepository.java</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Repository</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">BookingRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Booking</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Booking</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByStatus</span><span class="p">(</span><span class="n">BookingStatus</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Booking</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByGuestId</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">guestId</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Booking</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findTop5ByOrderByIdDesc</span><span class="p">();</span>
+
+<span class="w">    </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"SELECT SUM(b.totalAmount) FROM Booking b WHERE b.status != 'CANCELLED'"</span><span class="p">)</span>
+<span class="w">    </span><span class="n">Double</span><span class="w"> </span><span class="nf">calculateTotalRevenue</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="declarative-transactions-transactional">Declarative Transactions (@Transactional)</h3>
+<p>Found in <code>Hotel-Managment-System/BookingService.java</code>:
+- <code>@Transactional</code> ensures atomicity: if any step fails with an unchecked exception (<code>RuntimeException</code>), all database changes in the method rollback.
+- Manages Hibernate persistence context and dirty checking (modifications to attached entities are automatically saved upon transaction commit).</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Transactional</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">checkIn</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">bookingId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Booking</span><span class="w"> </span><span class="n">booking</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bookingRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">bookingId</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">"Booking not found: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bookingId</span><span class="p">));</span>
+<span class="w">    </span><span class="n">booking</span><span class="p">.</span><span class="na">setStatus</span><span class="p">(</span><span class="n">BookingStatus</span><span class="p">.</span><span class="na">CHECKED_IN</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Room</span><span class="w"> </span><span class="n">room</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">booking</span><span class="p">.</span><span class="na">getRoom</span><span class="p">();</span>
+<span class="w">    </span><span class="n">room</span><span class="p">.</span><span class="na">setStatus</span><span class="p">(</span><span class="n">RoomStatus</span><span class="p">.</span><span class="na">OCCUPIED</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="5-nosql-persistence-spring-data-mongodb">5. NoSQL Persistence: Spring Data MongoDB</h2>
+<p>Found in projects: <code>Mastery-Case-Tracker</code>, <code>Lifecycle Management</code>, <code>Lost-Found</code>, <code>siam</code></p>
+<h3 id="document-mapping-indexing">Document Mapping &amp; Indexing</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@Document</span><span class="p">(</span><span class="n">collection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"cases"</span><span class="p">)</span>
+<span class="nd">@Data</span>
+<span class="nd">@Builder</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CaseRecord</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Indexed</span><span class="p">(</span><span class="n">unique</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Field</span><span class="p">(</span><span class="s">"case_id"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">caseId</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Field</span><span class="p">(</span><span class="s">"title"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">title</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Field</span><span class="p">(</span><span class="s">"priority"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Priority</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Field</span><span class="p">(</span><span class="s">"status"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">CaseStatus</span><span class="w"> </span><span class="n">status</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@CreatedDate</span>
+<span class="w">    </span><span class="nd">@Field</span><span class="p">(</span><span class="s">"created_at"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">createdAt</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@LastModifiedDate</span>
+<span class="w">    </span><span class="nd">@Field</span><span class="p">(</span><span class="s">"updated_at"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">updatedAt</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="auditing-enablemongoauditing-createddate-lastmodifieddate">Auditing (@EnableMongoAuditing, @CreatedDate, @LastModifiedDate)</h3>
+<p>By placing <code>@EnableMongoAuditing</code> on a <code>@Configuration</code> class (<code>MongoConfig.java</code>), Spring automatically sets <code>@CreatedDate</code> when saving new records and <code>@LastModifiedDate</code> when updating existing records.</p>
+<h3 id="optimistic-locking-with-version">Optimistic Locking with @Version</h3>
+<p>Found in <code>Lifecycle Management/Patient.java</code>:
+- Prevents the <strong>Lost Update Problem</strong> in concurrent environments.
+- Spring Data tracks a version number. If two users read version <code>1</code> and attempt to update concurrently, the second write fails with <code>OptimisticLockingFailureException</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Document</span><span class="p">(</span><span class="n">collection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"patients"</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Patient</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Version</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">version</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ClinicalStatus</span><span class="w"> </span><span class="n">clinicalStatus</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="custom-json-queries-or-ne-regex">Custom JSON Queries ($or, $ne, regex)</h3>
+<p>Found in <code>Lifecycle Management/PatientRepository.java</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Repository</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">PatientRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">MongoRepository</span><span class="o">&lt;</span><span class="n">Patient</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"{ 'clinicalStatus' : { $ne: ?0 } }"</span><span class="p">)</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Patient</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findActivePatients</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="w"> </span><span class="n">excludedStatus</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"{ $or: [ "</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="s">"  { 'name'       : { $regex: ?0, $options: 'i' } }, "</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="s">"  { 'mrn'        : { $regex: ?0, $options: 'i' } }, "</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="s">"  { 'department' : { $regex: ?0, $options: 'i' } }  "</span><span class="w"> </span><span class="o">+</span>
+<span class="w">           </span><span class="s">"] }"</span><span class="p">)</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Patient</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">searchPatients</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">regex</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="6-enterprise-rest-api-design-dtos-error-handling">6. Enterprise REST API Design, DTOs &amp; Error Handling</h2>
+<p>Found in projects: <code>Mastery-Case-Tracker</code>, <code>Lifecycle Management</code></p>
+<h3 id="the-dto-data-transfer-object-pattern">The DTO (Data Transfer Object) Pattern</h3>
+<p>Separating internal persistence entities (<code>@Entity</code>, <code>@Document</code>) from external API contracts:
+- <strong>Security:</strong> Prevents over-posting/mass-assignment attacks.
+- <strong>Decoupling:</strong> Database schema changes don't break external API clients.
+- <strong>Performance:</strong> Avoids sending redundant or sensitive internal data (passwords, internal IDs).</p>
+<div class="highlight"><pre><span></span><code>Client Request ──&gt; [CaseRequestDTO] ──&gt; [Service Layer] ──&gt; [CaseRecord (Entity)] ──&gt; MongoDB
+                                                │
+Client Response &lt;── [CaseResponseDTO] &lt;─────────┘
+</code></pre></div>
+
+<h3 id="input-validation-jakarta-bean-validation">Input Validation (Jakarta Bean Validation)</h3>
+<p>Applied to incoming DTOs in controllers using <code>@Valid @RequestBody</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Data</span>
+<span class="nd">@Builder</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CaseRequestDTO</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Case ID is required"</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Pattern</span><span class="p">(</span><span class="n">regexp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"^CASE-\\d{3,}$"</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Case ID must follow format CASE-XXX (e.g. CASE-101)"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">caseId</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Case Title is required"</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Size</span><span class="p">(</span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Case Title must be between 3 and 150 characters"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">title</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@NotNull</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Priority is required (HIGH, MEDIUM, LOW)"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Priority</span><span class="w"> </span><span class="n">priority</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="centralized-exception-handling-restcontrolleradvice">Centralized Exception Handling (@RestControllerAdvice)</h3>
+<p>Found in <code>Mastery-Case-Tracker/GlobalExceptionHandler.java</code>:
+- Intercepts exceptions thrown anywhere in the controller layer.
+- Returns standardized <code>ErrorResponse</code> objects with proper HTTP status codes.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@RestControllerAdvice</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GlobalExceptionHandler</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">ResourceNotFoundException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorResponse</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleNotFound</span><span class="p">(</span><span class="n">ResourceNotFoundException</span><span class="w"> </span><span class="n">ex</span><span class="p">,</span><span class="w"> </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ErrorResponse</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ErrorResponse</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">timestamp</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">.</span><span class="na">value</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="s">"Not Found"</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">message</span><span class="p">(</span><span class="n">ex</span><span class="p">.</span><span class="na">getMessage</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">getRequestURI</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">).</span><span class="na">body</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">MethodArgumentNotValidException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ErrorResponse</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleValidationErrors</span><span class="p">(</span><span class="n">MethodArgumentNotValidException</span><span class="w"> </span><span class="n">ex</span><span class="p">,</span><span class="w"> </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fieldErrors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ex</span><span class="p">.</span><span class="na">getBindingResult</span><span class="p">().</span><span class="na">getFieldErrors</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">err</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span>
+<span class="w">            </span><span class="n">fieldErrors</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">err</span><span class="p">.</span><span class="na">getField</span><span class="p">(),</span><span class="w"> </span><span class="n">err</span><span class="p">.</span><span class="na">getDefaultMessage</span><span class="p">())</span>
+<span class="w">        </span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">ErrorResponse</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ErrorResponse</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">timestamp</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">.</span><span class="na">value</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="s">"Validation Failed"</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">message</span><span class="p">(</span><span class="s">"Input validation errors occurred"</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">getRequestURI</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">validationErrors</span><span class="p">(</span><span class="n">fieldErrors</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">badRequest</span><span class="p">().</span><span class="na">body</span><span class="p">(</span><span class="n">error</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="cross-origin-resource-sharing-cors-configuration">Cross-Origin Resource Sharing (CORS) Configuration</h3>
+<p>To allow frontend SPAs (React, Angular, Vue) to interact with the backend API:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">WebCorsConfig</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">WebMvcConfigurer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addCorsMappings</span><span class="p">(</span><span class="n">CorsRegistry</span><span class="w"> </span><span class="n">registry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">registry</span><span class="p">.</span><span class="na">addMapping</span><span class="p">(</span><span class="s">"```</span>
+
+<span class="s">---</span>
+
+<span class="s">## 7. Cloud Integrations: Media Management with Cloudinary</span>
+
+<span class="s">Found in project: `Lost-Found`</span>
+
+<span class="s">### Multipart File Uploads</span>
+<span class="s">For uploading images and files alongside form data:</span>
+
+<span class="s">```java</span>
+<span class="s">@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)</span>
+<span class="s">public ResponseEntity&lt;Item&gt; createItem(</span>
+<span class="s">        @ModelAttribute ItemRequestDto dto,</span>
+<span class="s">        @RequestParam(value = "</span><span class="n">image</span><span class="s">", required = false) MultipartFile image) throws IOException {</span>
+<span class="s">    Item created = itemService.createItem(dto, image);</span>
+<span class="s">    return ResponseEntity.status(HttpStatus.CREATED).body(created);</span>
+<span class="s">}</span>
+</code></pre></div>
+
+<h3 id="cloudinary-service-implementation">Cloudinary Service Implementation</h3>
+<p>Configures Cloudinary credentials from <code>application.properties</code> and handles upload and deletion:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CloudinaryConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Cloudinary</span><span class="w"> </span><span class="nf">cloudinary</span><span class="p">(</span>
+<span class="w">            </span><span class="nd">@Value</span><span class="p">(</span><span class="s">"${cloudinary.cloud-name}"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">cloudName</span><span class="p">,</span>
+<span class="w">            </span><span class="nd">@Value</span><span class="p">(</span><span class="s">"${cloudinary.api-key}"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">apiKey</span><span class="p">,</span>
+<span class="w">            </span><span class="nd">@Value</span><span class="p">(</span><span class="s">"${cloudinary.api-secret}"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">apiSecret</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Cloudinary</span><span class="p">(</span><span class="n">ObjectUtils</span><span class="p">.</span><span class="na">asMap</span><span class="p">(</span>
+<span class="w">                </span><span class="s">"cloud_name"</span><span class="p">,</span><span class="w"> </span><span class="n">cloudName</span><span class="p">,</span>
+<span class="w">                </span><span class="s">"api_key"</span><span class="p">,</span><span class="w"> </span><span class="n">apiKey</span><span class="p">,</span>
+<span class="w">                </span><span class="s">"api_secret"</span><span class="p">,</span><span class="w"> </span><span class="n">apiSecret</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CloudinaryService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Cloudinary</span><span class="w"> </span><span class="n">cloudinary</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">uploadImage</span><span class="p">(</span><span class="n">MultipartFile</span><span class="w"> </span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">cloudinary</span><span class="p">.</span><span class="na">uploader</span><span class="p">().</span><span class="na">upload</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="na">getBytes</span><span class="p">(),</span><span class="w"> </span><span class="n">ObjectUtils</span><span class="p">.</span><span class="na">asMap</span><span class="p">(</span>
+<span class="w">                </span><span class="s">"folder"</span><span class="p">,</span><span class="w"> </span><span class="s">"lost-found-items"</span><span class="p">,</span>
+<span class="w">                </span><span class="s">"resource_type"</span><span class="p">,</span><span class="w"> </span><span class="s">"auto"</span>
+<span class="w">        </span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteImage</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">publicId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">cloudinary</span><span class="p">.</span><span class="na">uploader</span><span class="p">().</span><span class="na">destroy</span><span class="p">(</span><span class="n">publicId</span><span class="p">,</span><span class="w"> </span><span class="n">ObjectUtils</span><span class="p">.</span><span class="na">emptyMap</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">log</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="s">"Failed to delete Cloudinary asset: {}"</span><span class="p">,</span><span class="w"> </span><span class="n">publicId</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="8-microservices-external-rest-apis-caching">8. Microservices, External REST APIs &amp; Caching</h2>
+<p>Found in project: <code>Hello Microservice</code></p>
+<h3 id="consuming-external-rest-apis-with-resttemplate">Consuming External REST APIs with RestTemplate</h3>
+<p>Using Spring's <code>RestTemplate</code> to make HTTP calls and map JSON responses to domain models:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UserService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">RestTemplate</span><span class="w"> </span><span class="n">restTemplate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RestTemplate</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllUsers</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"https://jsonplaceholder.typicode.com/users"</span><span class="p">;</span>
+<span class="w">        </span><span class="n">User</span><span class="o">[]</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">restTemplate</span><span class="p">.</span><span class="na">getForObject</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="o">[]</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="n">users</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="nf">getUserById</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"https://jsonplaceholder.typicode.com/users/"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">restTemplate</span><span class="p">.</span><span class="na">getForObject</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="w"> </span><span class="n">User</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="spring-cache-abstraction-enablecaching-cacheable-cacheevict">Spring Cache Abstraction (@EnableCaching, @Cacheable, @CacheEvict)</h3>
+<p>Eliminates redundant external API calls or expensive database lookups by storing results in-memory:</p>
+<ol>
+<li><strong>Enable Caching:</strong> Add <code>@EnableCaching</code> to main application class or configuration.</li>
+<li><strong><code>@Cacheable</code>:</strong> Checks cache first. If found, returns cached value without executing the method.</li>
+<li><strong><code>@CacheEvict</code>:</strong> Invalidates entries when data is modified to prevent stale data.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PatientServiceImpl</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PatientService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="nd">@Cacheable</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"patients"</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"#id"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">PatientResponse</span><span class="w"> </span><span class="nf">getPatientById</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">patientRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="k">this</span><span class="p">::</span><span class="n">toResponse</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PatientNotFoundException</span><span class="p">(</span><span class="n">id</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="nd">@CacheEvict</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">"patients"</span><span class="p">,</span><span class="w"> </span><span class="s">"dashboard"</span><span class="p">},</span><span class="w"> </span><span class="n">allEntries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">PatientResponse</span><span class="w"> </span><span class="nf">updatePatient</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">PatientRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="9-spring-security-6-form-based-stateless-jwt">9. Spring Security 6: Form-Based &amp; Stateless JWT</h2>
+<p>Found in projects: <code>Hello Spring Security</code>, <code>Security-Project</code>, <code>Lifecycle Management</code></p>
+<h3 id="security-architecture-overview">Security Architecture Overview</h3>
+<p>Spring Security operates as a chain of servlet filters (<code>SecurityFilterChain</code>):</p>
+<div class="highlight"><pre><span></span><code>HTTP Request ──&gt; [CorsFilter] ──&gt; [CsrfFilter] ──&gt; [JwtAuthenticationFilter] ──&gt; [UsernamePasswordAuthenticationFilter] ──&gt; [AuthorizationFilter] ──&gt; Controller
+</code></pre></div>
+
+<h3 id="password-encoding-with-bcrypt">Password Encoding with BCrypt</h3>
+<p>Never store plain-text passwords. BCrypt incorporates a random salt and adaptive work factor:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Bean</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="nf">passwordEncoder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BCryptPasswordEncoder</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="form-based-security-with-custom-authenticationprovider">Form-Based Security with Custom AuthenticationProvider</h3>
+<p>Found in <code>Hello Spring Security</code>:
+Implements <code>AuthenticationProvider</code> to support custom user authentication and role lookup:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CustomAuthenticationProvider</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">AuthenticationProvider</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserService</span><span class="w"> </span><span class="n">userService</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="n">passwordEncoder</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Authentication</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">(</span><span class="n">Authentication</span><span class="w"> </span><span class="n">authentication</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">AuthenticationException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authentication</span><span class="p">.</span><span class="na">getName</span><span class="p">();</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authentication</span><span class="p">.</span><span class="na">getCredentials</span><span class="p">().</span><span class="na">toString</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userService</span><span class="p">.</span><span class="na">findByEmail</span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getPassword</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BadCredentialsException</span><span class="p">(</span><span class="s">"Invalid email or password"</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">GrantedAuthority</span><span class="o">&gt;</span><span class="w"> </span><span class="n">authorities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">user</span><span class="p">.</span><span class="na">getRoles</span><span class="p">().</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">SimpleGrantedAuthority</span><span class="p">::</span><span class="k">new</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsernamePasswordAuthenticationToken</span><span class="p">(</span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">authorities</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">supports</span><span class="p">(</span><span class="n">Class</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">authentication</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">UsernamePasswordAuthenticationToken</span><span class="p">.</span><span class="na">class</span><span class="p">.</span><span class="na">isAssignableFrom</span><span class="p">(</span><span class="n">authentication</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="stateless-jwt-architecture-filter-claims-token-lifecycle">Stateless JWT Architecture (Filter, Claims, Token Lifecycle)</h3>
+<p>Found in <code>Lifecycle Management</code>:
+For modern stateless REST APIs where the server stores no session (<code>SessionCreationPolicy.STATELESS</code>):</p>
+<div class="highlight"><pre><span></span><code>Client                     JwtAuthenticationFilter                      SecurityContext
+  │                                   │                                        │
+  │─── Request + Bearer Token ───────&gt;│                                        │
+  │                                   │── Extract &amp; validate JWT               │
+  │                                   │── Load UserDetails                     │
+  │                                   │── Set Authentication ─────────────────&gt;│
+  │                                   │                                        │
+  │&lt;── Response ──────────────────────│                                        │
+</code></pre></div>
+
+<h4 id="1-jwtauthenticationfilter">1. JwtAuthenticationFilter:</h4>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">JwtAuthenticationFilter</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">OncePerRequestFilter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">JwtUtils</span><span class="w"> </span><span class="n">jwtUtils</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserDetailsService</span><span class="w"> </span><span class="n">userDetailsService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilterInternal</span><span class="p">(</span>
+<span class="w">            </span><span class="nd">@NonNull</span><span class="w"> </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="nd">@NonNull</span><span class="w"> </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="nd">@NonNull</span><span class="w"> </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">filterChain</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">ServletException</span><span class="p">,</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">authHeader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getHeader</span><span class="p">(</span><span class="s">"Authorization"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">authHeader</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">authHeader</span><span class="p">.</span><span class="na">startsWith</span><span class="p">(</span><span class="s">"Bearer "</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">filterChain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authHeader</span><span class="p">.</span><span class="na">substring</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jwtUtils</span><span class="p">.</span><span class="na">extractUsername</span><span class="p">(</span><span class="n">token</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">username</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">SecurityContextHolder</span><span class="p">.</span><span class="na">getContext</span><span class="p">().</span><span class="na">getAuthentication</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">UserDetails</span><span class="w"> </span><span class="n">userDetails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userDetailsService</span><span class="p">.</span><span class="na">loadUserByUsername</span><span class="p">(</span><span class="n">username</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jwtUtils</span><span class="p">.</span><span class="na">isTokenValid</span><span class="p">(</span><span class="n">token</span><span class="p">,</span><span class="w"> </span><span class="n">userDetails</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">UsernamePasswordAuthenticationToken</span><span class="w"> </span><span class="n">authToken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+<span class="w">                        </span><span class="k">new</span><span class="w"> </span><span class="n">UsernamePasswordAuthenticationToken</span><span class="p">(</span><span class="n">userDetails</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">userDetails</span><span class="p">.</span><span class="na">getAuthorities</span><span class="p">());</span>
+<span class="w">                </span><span class="n">authToken</span><span class="p">.</span><span class="na">setDetails</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">WebAuthenticationDetailsSource</span><span class="p">().</span><span class="na">buildDetails</span><span class="p">(</span><span class="n">request</span><span class="p">));</span>
+<span class="w">                </span><span class="n">SecurityContextHolder</span><span class="p">.</span><span class="na">getContext</span><span class="p">().</span><span class="na">setAuthentication</span><span class="p">(</span><span class="n">authToken</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">filterChain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="2-stateless-securityfilterchain-configuration">2. Stateless SecurityFilterChain Configuration:</h4>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebSecurity</span>
+<span class="nd">@EnableMethodSecurity</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SecurityConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">JwtAuthenticationFilter</span><span class="w"> </span><span class="n">jwtAuthFilter</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SecurityFilterChain</span><span class="w"> </span><span class="nf">securityFilterChain</span><span class="p">(</span><span class="n">HttpSecurity</span><span class="w"> </span><span class="n">http</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">http</span>
+<span class="w">            </span><span class="p">.</span><span class="na">csrf</span><span class="p">(</span><span class="n">AbstractHttpConfigurer</span><span class="p">::</span><span class="n">disable</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">sessionManagement</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">sessionCreationPolicy</span><span class="p">(</span><span class="n">SessionCreationPolicy</span><span class="p">.</span><span class="na">STATELESS</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">authorizeHttpRequests</span><span class="p">(</span><span class="n">auth</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">auth</span>
+<span class="w">                </span><span class="p">.</span><span class="na">requestMatchers</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="na">POST</span><span class="p">,</span><span class="w"> </span><span class="s">"/api/auth/login"</span><span class="p">).</span><span class="na">permitAll</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">requestMatchers</span><span class="p">(</span><span class="n">HttpMethod</span><span class="p">.</span><span class="na">DELETE</span><span class="p">,</span><span class="w"> </span><span class="s">"/api/patients```</span>
+
+<span class="s">### Method-Level Security (@EnableMethodSecurity, @PreAuthorize)</span>
+<span class="s">Allows fine-grained security directly on controller or service methods:</span>
+
+<span class="s">```java</span>
+<span class="s">@PreAuthorize("</span><span class="n">hasRole</span><span class="p">(</span><span class="err">'</span><span class="n">ADMIN</span><span class="err">'</span><span class="p">)</span><span class="s">")</span>
+<span class="s">@DeleteMapping("</span><span class="o">/</span><span class="p">{</span><span class="n">id</span><span class="p">}</span><span class="s">")</span>
+<span class="s">public ResponseEntity&lt;Void&gt; deletePatient(@PathVariable String id) {</span>
+<span class="s">    patientService.deletePatient(id);</span>
+<span class="s">    return ResponseEntity.noContent().build();</span>
+<span class="s">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="10-advanced-enterprise-design-patterns">10. Advanced Enterprise Design Patterns</h2>
+<p>Found in project: <code>Lifecycle Management</code></p>
+<h3 id="finite-state-machine-fsm-domain-workflow">Finite State Machine (FSM) Domain Workflow</h3>
+<p>The hospital patient management system implements a Finite State Machine guarding clinical transitions:</p>
+<div class="highlight"><pre><span></span><code>  ┌───────────┐
+  │  TRIAGE   │
+  └─────┬─────┘
+        │
+        ├─────────────────────────────┐
+        ▼                             ▼
+  ┌───────────┐                 ┌────────────┐
+  │ ADMITTED  │                 │ DISCHARGED │ (Terminal)
+  └─────┬─────┘                 └────────────┘
+        │                             ▲
+        ├──────────────┬──────────────┤
+        ▼              ▼              │
+  ┌───────────┐  ┌───────────┐        │
+  │IN_SURGERY │  │    ICU    │────────┘
+  └───────────┘  └───────────┘
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ClinicalFsmService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">ClinicalStatus</span><span class="p">,</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">ClinicalStatus</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">TRANSITIONS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EnumMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TRANSITIONS</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">TRIAGE</span><span class="p">,</span><span class="w">      </span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">ADMITTED</span><span class="p">,</span><span class="w"> </span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">DISCHARGED</span><span class="p">));</span>
+<span class="w">        </span><span class="n">TRANSITIONS</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">ADMITTED</span><span class="p">,</span><span class="w">    </span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">IN_SURGERY</span><span class="p">,</span><span class="w"> </span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">ICU</span><span class="p">,</span><span class="w"> </span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">DISCHARGED</span><span class="p">));</span>
+<span class="w">        </span><span class="n">TRANSITIONS</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">IN_SURGERY</span><span class="p">,</span><span class="w">  </span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">ICU</span><span class="p">,</span><span class="w"> </span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">ADMITTED</span><span class="p">));</span>
+<span class="w">        </span><span class="n">TRANSITIONS</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">ICU</span><span class="p">,</span><span class="w">         </span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">ADMITTED</span><span class="p">,</span><span class="w"> </span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">DISCHARGED</span><span class="p">));</span>
+<span class="w">        </span><span class="n">TRANSITIONS</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="p">.</span><span class="na">DISCHARGED</span><span class="p">,</span><span class="w">  </span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">validateTransition</span><span class="p">(</span><span class="n">ClinicalStatus</span><span class="w"> </span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">ClinicalStatus</span><span class="w"> </span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">current</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">ClinicalStatus</span><span class="o">&gt;</span><span class="w"> </span><span class="n">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TRANSITIONS</span><span class="p">.</span><span class="na">getOrDefault</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">());</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">allowed</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">next</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalClinicalStateTransitionException</span><span class="p">(</span><span class="n">current</span><span class="p">.</span><span class="na">name</span><span class="p">(),</span><span class="w"> </span><span class="n">next</span><span class="p">.</span><span class="na">name</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="pagination-sorting-pageable-page">Pagination &amp; Sorting (Pageable &amp; Page<T>)</h3>
+<p>Crucial for handling large datasets without loading hundreds of thousands of records into memory:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@GetMapping</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Page</span><span class="o">&lt;</span><span class="n">PatientResponse</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nf">getAllPatients</span><span class="p">(</span>
+<span class="w">        </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"0"</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">page</span><span class="p">,</span>
+<span class="w">        </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"10"</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span>
+<span class="w">        </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"createdAt"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sortBy</span><span class="p">,</span>
+<span class="w">        </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"desc"</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">direction</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">Sort</span><span class="w"> </span><span class="n">sort</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">direction</span><span class="p">.</span><span class="na">equalsIgnoreCase</span><span class="p">(</span><span class="s">"asc"</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">Sort</span><span class="p">.</span><span class="na">by</span><span class="p">(</span><span class="n">sortBy</span><span class="p">).</span><span class="na">ascending</span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Sort</span><span class="p">.</span><span class="na">by</span><span class="p">(</span><span class="n">sortBy</span><span class="p">).</span><span class="na">descending</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Pageable</span><span class="w"> </span><span class="n">pageable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PageRequest</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">page</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">sort</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="n">patientService</span><span class="p">.</span><span class="na">getAllPatients</span><span class="p">(</span><span class="n">pageable</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="automatic-master-data-seeding-commandlinerunner">Automatic Master Data Seeding (CommandLineRunner)</h3>
+<p>Automatically creates default administrative accounts and baseline data when the application boots:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">DataSeeder</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">CommandLineRunner</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserRepository</span><span class="w"> </span><span class="n">userRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="n">passwordEncoder</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">String</span><span class="p">...</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">userRepository</span><span class="p">.</span><span class="na">count</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ApplicationUser</span><span class="w"> </span><span class="n">admin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ApplicationUser</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">username</span><span class="p">(</span><span class="s">"admin"</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">password</span><span class="p">(</span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="s">"admin123"</span><span class="p">))</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">roles</span><span class="p">(</span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">"ROLE_ADMIN"</span><span class="p">,</span><span class="w"> </span><span class="s">"ROLE_PHYSICIAN"</span><span class="p">))</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">            </span><span class="n">userRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">admin</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="11-unit-integration-testing-junit-5-spring-boot-test">11. Unit &amp; Integration Testing (JUnit 5 &amp; Spring Boot Test)</h2>
+<p>Found in projects: <code>UnitTest</code>, <code>Hello Mongo Test</code>, <code>Mastery-Case-Tracker</code></p>
+<h3 id="test-lifecycle-annotations">Test Lifecycle Annotations</h3>
+<p>Found in <code>UnitTest/MathServiceTest.java</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Execution Timing</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@BeforeAll</code></td>
+<td>Once before all tests in the class</td>
+<td>Must be <code>static</code> method</td>
+</tr>
+<tr>
+<td><code>@BeforeEach</code></td>
+<td>Before every individual <code>@Test</code></td>
+<td>Initializes fresh test state</td>
+</tr>
+<tr>
+<td><code>@Test</code></td>
+<td>The actual test case</td>
+<td>Marked methods must not return a value</td>
+</tr>
+<tr>
+<td><code>@AfterEach</code></td>
+<td>After every individual <code>@Test</code></td>
+<td>Cleanups / state reset</td>
+</tr>
+<tr>
+<td><code>@AfterAll</code></td>
+<td>Once after all tests complete</td>
+<td>Must be <code>static</code> method</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MathServiceTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">MathService</span><span class="w"> </span><span class="n">mathService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@BeforeAll</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeAllTest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Executing class-level setup..."</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">addTest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mathService</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Assertions</span><span class="p">.</span><span class="na">assertEquals</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="s">"1 + 2 should equal 3"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">sub</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mathService</span><span class="p">.</span><span class="na">sub</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Assertions</span><span class="p">.</span><span class="na">assertEquals</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="testing-spring-data-services">Testing Spring Data Services</h3>
+<p>Found in <code>Hello Mongo Test/StudentServiceTest.java</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootTest</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentServiceTest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">StudentService</span><span class="w"> </span><span class="n">studentService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testSaveStudent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">StudentSaveDTO</span><span class="w"> </span><span class="n">dto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">StudentSaveDTO</span><span class="p">(</span><span class="s">"Mr. Java"</span><span class="p">,</span><span class="w"> </span><span class="mi">48</span><span class="p">,</span><span class="w"> </span><span class="mf">3.52</span><span class="p">,</span><span class="w"> </span><span class="s">"approved"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Student</span><span class="w"> </span><span class="n">saved</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">dto</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">Assertions</span><span class="p">.</span><span class="na">assertNotNull</span><span class="p">(</span><span class="n">saved</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">        </span><span class="n">Assertions</span><span class="p">.</span><span class="na">assertEquals</span><span class="p">(</span><span class="n">dto</span><span class="p">.</span><span class="na">name</span><span class="p">(),</span><span class="w"> </span><span class="n">saved</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="12-workspace-project-inventory-reference-map">12. Workspace Project Inventory &amp; Reference Map</h2>
+<table>
+<thead>
+<tr>
+<th>Project Name</th>
+<th>Primary Technology</th>
+<th>Key Architectural Features Demonstrated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>Record</code></strong></td>
+<td>Java 17 Core</td>
+<td>Records, Compact Constructors, Sealed Classes (<code>permits</code>, <code>final</code>), DTOs.</td>
+</tr>
+<tr>
+<td><strong><code>Hello Spring Boot (1)</code></strong></td>
+<td>Spring MVC</td>
+<td><code>@Controller</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, Request parameter binding, Web forms.</td>
+</tr>
+<tr>
+<td><strong><code>courierDemo</code></strong></td>
+<td>Spring MVC + JPA</td>
+<td>Thymeleaf forms, Jakarta validation (<code>@NotBlank</code>, <code>@Positive</code>), <code>BindingResult</code>, PRG pattern.</td>
+</tr>
+<tr>
+<td><strong><code>Product-Shop (1-4)</code></strong></td>
+<td>Spring Data JPA + MySQL</td>
+<td>JPA Entities, <code>@Embedded</code>, <code>@ElementCollection</code>, Cardinalities (<code>@OneToOne</code>, <code>@ManyToOne</code>, <code>@OneToMany</code>), Cascade &amp; Fetch types.</td>
+</tr>
+<tr>
+<td><strong><code>Hotel-Managment-System</code></strong></td>
+<td>Full-Stack Spring Data JPA</td>
+<td>Multi-entity relational system (Rooms, Guests, Bookings), Custom JPQL queries, <code>@Transactional</code> services, Enums (<code>EnumType.STRING</code>).</td>
+</tr>
+<tr>
+<td><strong><code>siam</code></strong> &amp; <strong><code>Lifecycle Manager</code></strong></td>
+<td>Spring Data Mongo (Early)</td>
+<td>MongoDB document storage, manual statistics aggregation, CRUD operations.</td>
+</tr>
+<tr>
+<td><strong><code>Hello Rest</code></strong></td>
+<td>Spring Data Mongo</td>
+<td>Clean REST Controller structure (<code>@RestController</code>, <code>@RequestMapping</code>, <code>@RequestBody</code>, <code>@PathVariable</code>).</td>
+</tr>
+<tr>
+<td><strong><code>Mastery-Case-Tracker</code></strong></td>
+<td>Spring Data Mongo + REST</td>
+<td>Full DTO architecture, Regex validation, Auditing (<code>@EnableMongoAuditing</code>), <code>@RestControllerAdvice</code> Global Exception Handling, CORS.</td>
+</tr>
+<tr>
+<td><strong><code>Lost-Found</code></strong></td>
+<td>Spring Boot + Cloudinary</td>
+<td>Multipart file uploads (<code>MultipartFile</code>), Cloudinary SDK integration (upload, delete), PATCH endpoints.</td>
+</tr>
+<tr>
+<td><strong><code>Hello Microservice</code></strong></td>
+<td>Spring Boot + RestTemplate</td>
+<td>Consuming third-party external REST APIs, JSON deserialization, Spring Cache (<code>@EnableCaching</code>, <code>@Cacheable</code>).</td>
+</tr>
+<tr>
+<td><strong><code>Hello Spring Security</code></strong></td>
+<td>Spring Security 6 (Form)</td>
+<td>Form login, custom <code>AuthenticationProvider</code>, BCrypt password hashing, session management, role/authority authorization.</td>
+</tr>
+<tr>
+<td><strong><code>Security-Project</code></strong></td>
+<td>Spring Security 6</td>
+<td>Web route authorization, SecurityFilterChain configuration, Thymeleaf security tag library.</td>
+</tr>
+<tr>
+<td><strong><code>Lifecycle Management</code></strong></td>
+<td>Enterprise Full-Stack</td>
+<td>Stateless JWT Authentication, Custom UserDetailsService, Method Security (<code>@PreAuthorize</code>), Finite State Machine (Clinical FSM), Spring Caching (<code>@Cacheable</code>, <code>@CacheEvict</code>), Optimistic Locking (<code>@Version</code>), Pagination (<code>Pageable</code>), Data Seeding.</td>
+</tr>
+<tr>
+<td><strong><code>UnitTest</code></strong> &amp; <strong><code>Hello Mongo Test</code></strong></td>
+<td>JUnit 5 + Spring Boot Test</td>
+<td>Test lifecycle callbacks (<code>@BeforeAll</code>, <code>@BeforeEach</code>, etc.), Assertions, Testing Spring services with real databases.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="summary-checklist-for-coding-interviews">Summary Checklist for Coding &amp; Interviews</h2>
+<ol>
+<li><strong>Model Immutability:</strong> Use Java <code>record</code> for DTOs and value carriers; use <code>@Entity</code> or <code>@Document</code> for persistent models.</li>
+<li><strong>Layer Separation:</strong> Controller (API routing) -&gt; Service (Business logic &amp; transactions) -&gt; Repository (Data access).</li>
+<li><strong>Database Relationships:</strong> Always specify <code>fetch</code> strategy (<code>LAZY</code> for collections) and <code>@JoinColumn</code> on owning sides.</li>
+<li><strong>Validation:</strong> Never trust client input; use <code>@Valid</code> with Jakarta annotations (<code>@NotBlank</code>, <code>@Pattern</code>, <code>@Size</code>) and handle failures with <code>@RestControllerAdvice</code>.</li>
+<li><strong>Security:</strong> Use stateless JWT for APIs; hash passwords with <code>BCryptPasswordEncoder</code>; protect routes with filter chain rules and <code>@PreAuthorize</code>.</li>
+<li><strong>State Machines:</strong> Never mutate complex state blindly; encapsulate state transition rules inside a dedicated FSM service.</li>
+<li><strong>Concurrency:</strong> Always guard critical concurrent documents with <code>@Version</code> optimistic locking.</li>
+<li><strong>Performance:</strong> Utilize Spring Caching (<code>@Cacheable</code>, <code>@CacheEvict</code>) and database pagination (<code>Pageable</code>, <code>Page&lt;T&gt;</code>) for scalable systems.</li>
+</ol>
+</main>
+
+<footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; color: #94a3b8; font-size: 0.85rem;">
+    Advanced Java Practice &bull; Generated from Study Notes &bull; Author: Siam
+</footer>
+
+</body>
+</html>

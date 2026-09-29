@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservice & Cache - LAB-FINAL-PREP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/dashboard}" class="nav-brand">
+        <span class="brand-badge">LAB-FINAL-PREP</span>
+        <span>Management Hub</span>
+    </a>
+    <ul class="nav-links">
+        <li class="nav-item"><a th:href="@{/dashboard}">Dashboard</a></li>
+        <li class="nav-item"><a th:href="@{/students}">Students (JPA)</a></li>
+        <li class="nav-item"><a th:href="@{/cases}">Cases (MongoDB)</a></li>
+        <li class="nav-item"><a th:href="@{/external-users}" class="active">Microservice & Cache</a></li>
+        <li class="nav-item"><a th:href="@{/ai}">Spring AI & JWT</a></li>
+    </ul>
+    <div class="nav-user">
+        <span class="user-badge" sec:authorize="isAuthenticated()">
+            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+            <span sec:authentication="name">User</span>
+            <span style="color: var(--gray-400);">&bull;</span>
+            <span style="font-size: 0.74rem; color: var(--primary);" sec:authentication="principal.authorities">ROLE</span>
+        </span>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="btn-logout">Sign Out</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Microservice REST Client & In-Memory Caching</h1>
+            <p class="page-subtitle">Consuming remote JSON API using RestTemplate with Spring Cache Abstraction (@Cacheable, @CacheEvict)</p>
+        </div>
+        <div>
+            <form th:action="@{/external-users/evict}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Evict Cache (@CacheEvict)</button>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${param.cacheEvicted}" class="alert alert-success">
+        In-memory cache for external users evicted successfully. Next request will fetch fresh data from remote endpoint!
+    </div>
+
+    <div class="card" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div>
+                <span class="stat-label" style="color: #c7d2fe;">Remote Endpoint Benchmark</span>
+                <h2 style="color: #ffffff; margin: 6px 0; border: none; font-size: 1.5rem;">
+                    Response Time: <span style="color: #38bdf8;" th:text="${fetchDurationMs} + ' ms'">12 ms</span>
+                </h2>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0;">
+                    Target: <code>https://jsonplaceholder.typicode.com/users</code> &bull; Sub-10ms response indicates cached memory hit.
+                </p>
+            </div>
+            <a th:href="@{/external-users}" class="btn btn-primary" style="background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4);">
+                Reload Page (Test Cache)
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">
+            <span>Remote Users Deserialized Collection</span>
+            <span style="font-size: 0.85rem; color: var(--gray-600);" th:text="'Total: ' + ${#lists.size(users)}">Total: 0</span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Website</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td><strong th:text="${user.id}">1</strong></td>
+                    <td th:text="${user.name}">Leanne Graham</td>
+                    <td><code th:text="${user.username}">Bret</code></td>
+                    <td th:text="${user.email}">sincere@april.biz</td>
+                    <td th:text="${user.phone}">1-770-736-8031</td>
+                    <td>
+                        <a th:href="'http://' + ${user.website}" target="_blank" th:text="${user.website}" style="color: var(--primary); text-decoration: none;">hildegard.org</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(users)}">
+                    <td colspan="6" style="text-align: center; color: var(--gray-400); padding: 32px;">
+                        No external users retrieved or remote service is unreachable.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    LAB-FINAL-PREP &bull; Advanced Java Enterprise Framework Demonstration &bull; Siam
+</footer>
+
+</body>
+</html>

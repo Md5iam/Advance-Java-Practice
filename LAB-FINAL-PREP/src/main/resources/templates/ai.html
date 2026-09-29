@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring AI Assistant - LAB-FINAL-PREP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/dashboard}" class="nav-brand">
+        <span class="brand-badge">LAB-FINAL-PREP</span>
+        <span>Management Hub</span>
+    </a>
+    <ul class="nav-links">
+        <li class="nav-item"><a th:href="@{/dashboard}">Dashboard</a></li>
+        <li class="nav-item"><a th:href="@{/students}">Students (JPA)</a></li>
+        <li class="nav-item"><a th:href="@{/cases}">Cases (MongoDB)</a></li>
+        <li class="nav-item"><a th:href="@{/external-users}">Microservice & Cache</a></li>
+        <li class="nav-item"><a th:href="@{/ai}" class="active">Spring AI & JWT</a></li>
+    </ul>
+    <div class="nav-user">
+        <span class="user-badge" sec:authorize="isAuthenticated()">
+            <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+            <span sec:authentication="name">User</span>
+            <span style="color: var(--gray-400);">&bull;</span>
+            <span style="font-size: 0.74rem; color: var(--primary);" sec:authentication="principal.authorities">ROLE</span>
+        </span>
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="btn-logout">Sign Out</button>
+        </form>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Spring AI & JWT Security Hub</h1>
+            <p class="page-subtitle">Learn basic Spring AI (ChatModel, Prompt, PromptTemplate) and stateless Bearer JWT authentication</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <a th:href="@{/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Spring AI Abstraction</span>
+            <span class="stat-value" style="font-size: 1.4rem; color: var(--primary);">ChatModel</span>
+            <span class="stat-desc">Unified interface for model interaction</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Prompt Engineering</span>
+            <span class="stat-value" style="font-size: 1.4rem; color: #8b5cf6;">PromptTemplate</span>
+            <span class="stat-desc">Dynamic variable binding & rendering</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Security Architecture</span>
+            <span class="stat-value" style="font-size: 1.4rem; color: #0ea5e9;">Stateless JWT</span>
+            <span class="stat-desc">HMAC-SHA256 Bearer Token Filter</span>
+        </div>
+    </div>
+
+    <div th:if="${aiResponse != null}" class="card" style="margin-bottom: 24px; border: 2px solid var(--primary); background: #fdfdfe;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="card-title" style="margin: 0; color: var(--primary);">Spring AI Output</div>
+            <span class="badge badge-success" th:text="${aiResponse.model}">Model</span>
+        </div>
+        <div style="margin-bottom: 12px; padding: 10px 14px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200); font-size: 0.88rem;">
+            <strong>Executed Prompt:</strong>
+            <span th:text="${aiResponse.prompt}" style="color: var(--gray-700); font-family: 'JetBrains Mono', monospace;">Prompt</span>
+        </div>
+        <div style="padding: 16px; background: #ffffff; border-radius: 8px; border: 1px solid var(--gray-200); white-space: pre-wrap; font-family: 'JetBrains Mono', monospace; font-size: 0.92rem; line-height: 1.6; color: var(--gray-800);" th:text="${aiResponse.response}">Response</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; margin-bottom: 24px;">
+        <div class="card">
+            <div class="card-title">1. Interactive Spring AI Prompt</div>
+            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">Directly execute a Prompt via Spring AI's ChatModel pipeline.</p>
+            <form th:action="@{/ai/chat}" method="post">
+                <div class="form-group">
+                    <label class="form-label" for="promptInput">Enter Prompt / Question</label>
+                    <textarea id="promptInput" name="prompt" rows="4" class="form-control" placeholder="E.g., What is Spring AI and how does PromptTemplate work?" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Execute via Spring AI</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-title">2. PromptTemplate: Student Evaluation</div>
+            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">Uses Spring Data JPA student entity to fill a structured PromptTemplate.</p>
+            <form th:action="@{/ai/student}" method="post">
+                <div class="form-group">
+                    <label class="form-label" for="studentSelect">Select Student</label>
+                    <select id="studentSelect" name="studentId" class="form-control" required>
+                        <option value="">-- Choose a Student --</option>
+                        <option th:each="s : ${students}" th:value="${s.id}" th:text="${s.name + ' (' + s.studentId + ') - CGPA: ' + s.gpa}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Student AI Report</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-title">3. PromptTemplate: Case Triage Advisor</div>
+            <p style="font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px;">Uses Spring Data MongoDB case document to fill a structured PromptTemplate.</p>
+            <form th:action="@{/ai/case}" method="post">
+                <div class="form-group">
+                    <label class="form-label" for="caseSelect">Select MongoDB Case</label>
+                    <select id="caseSelect" name="caseId" class="form-control" required>
+                        <option value="">-- Choose a Case --</option>
+                        <option th:each="c : ${cases}" th:value="${c.caseId}" th:text="${c.caseId + ' - ' + c.title + ' [' + c.priority + ']'}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Case AI Action Plan</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card" style="margin-bottom: 24px;">
+        <div class="card-title">4. Live JWT Authentication & REST API Client</div>
+        <p style="font-size: 0.88rem; color: var(--gray-600); margin-bottom: 16px;">
+            Test the stateless JWT security layer: Generate a token via <code>POST /api/v1/auth/login</code>, then invoke <code>POST /api/v1/ai/chat</code> with the <code>Authorization: Bearer &lt;token&gt;</code> header.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px;">
+            <div class="form-group" style="margin: 0;">
+                <label class="form-label" for="jwtUsername">Username</label>
+                <input type="text" id="jwtUsername" class="form-control" value="admin">
+            </div>
+            <div class="form-group" style="margin: 0;">
+                <label class="form-label" for="jwtPassword">Password</label>
+                <input type="password" id="jwtPassword" class="form-control" value="admin123">
+            </div>
+            <div style="display: flex; align-items: flex-end;">
+                <button type="button" id="btnGetToken" class="btn btn-primary" style="width: 100%; height: 42px;" onclick="generateJwt()">1. Generate JWT Token</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="jwtTokenDisplay">Generated JWT Token</label>
+            <textarea id="jwtTokenDisplay" class="form-control" rows="2" readonly style="font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--gray-100);" placeholder="Click 'Generate JWT Token' to authenticate and acquire token..."></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-bottom: 16px;">
+            <input type="text" id="jwtPromptInput" class="form-control" value="Explain the role of ChatModel in Spring AI" placeholder="Enter API prompt">
+            <button type="button" id="btnTestApi" class="btn btn-success" onclick="invokeSecuredApi()" style="white-space: nowrap;">2. Call Secured AI API</button>
+        </div>
+
+        <div class="form-group" style="margin: 0;">
+            <label class="form-label" for="jwtApiResponse">API Response (via JWT Bearer Token)</label>
+            <pre id="jwtApiResponse" style="margin: 0; padding: 14px; background: #0f172a; color: #38bdf8; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; overflow-x: auto; min-height: 80px;">Waiting for API invocation...</pre>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">Spring AI Core Architecture Cheat Sheet</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 12px;">
+            <div style="padding: 14px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200);">
+                <strong style="color: var(--primary);">Prompt & PromptTemplate</strong>
+                <p style="font-size: 0.82rem; color: var(--gray-600); margin-top: 6px; line-height: 1.5;">
+                    <code>PromptTemplate template = new PromptTemplate("Hello {name}");</code><br>
+                    <code>Prompt prompt = template.create(Map.of("name", "Siam"));</code>
+                </p>
+            </div>
+            <div style="padding: 14px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200);">
+                <strong style="color: var(--secondary);">ChatModel & ChatResponse</strong>
+                <p style="font-size: 0.82rem; color: var(--gray-600); margin-top: 6px; line-height: 1.5;">
+                    <code>ChatResponse response = chatModel.call(prompt);</code><br>
+                    <code>String text = response.getResult().getOutput().getText();</code>
+                </p>
+            </div>
+            <div style="padding: 14px; background: var(--gray-50); border-radius: 8px; border: 1px solid var(--gray-200);">
+                <strong style="color: #0ea5e9;">JWT Filter Pipeline</strong>
+                <p style="font-size: 0.82rem; color: var(--gray-600); margin-top: 6px; line-height: 1.5;">
+                    <code>Authorization: Bearer &lt;token&gt;</code><br>
+                    Parsed by <code>JwtAuthenticationFilter</code> before <code>UsernamePasswordAuthenticationFilter</code>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    LAB-FINAL-PREP &bull; Advanced Java Enterprise Framework Demonstration &bull; Siam
+</footer>
+
+<script>
+let currentJwtToken = '';
+
+async function generateJwt() {
+    const username = document.getElementById('jwtUsername').value;
+    const password = document.getElementById('jwtPassword').value;
+    const display = document.getElementById('jwtTokenDisplay');
+    const apiBox = document.getElementById('jwtApiResponse');
+
+    try {
+        const res = await fetch('/api/v1/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok && data.token) {
+            currentJwtToken = data.token;
+            display.value = data.token;
+            apiBox.textContent = 'Token generated successfully! User: ' + data.username + ' | Roles: ' + JSON.stringify(data.roles);
+        } else {
+            display.value = '';
+            apiBox.textContent = 'Authentication failed: ' + (data.message || JSON.stringify(data));
+        }
+    } catch (err) {
+        display.value = '';
+        apiBox.textContent = 'Error contacting auth endpoint: ' + err.message;
+    }
+}
+
+async function invokeSecuredApi() {
+    const apiBox = document.getElementById('jwtApiResponse');
+    const prompt = document.getElementById('jwtPromptInput').value;
+
+    if (!currentJwtToken) {
+        apiBox.textContent = 'Please generate a JWT Token first before calling secured endpoints!';
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/v1/ai/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + currentJwtToken
+            },
+            body: JSON.stringify({ prompt })
+        });
+        const data = await res.json();
+        apiBox.textContent = JSON.stringify(data, null, 2);
+    } catch (err) {
+        apiBox.textContent = 'Error invoking secured AI API: ' + err.message;
+    }
+}
+</script>
+
+</body>
+</html>
