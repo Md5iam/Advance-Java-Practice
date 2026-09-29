@@ -24,7 +24,11 @@ public class ExternalUserServiceImpl implements ExternalUserService {
         String url = "https://jsonplaceholder.typicode.com/users";
         try {
             ExternalUserDTO[] users = restTemplate.getForObject(url, ExternalUserDTO[].class);
-            return users != null ? Arrays.asList(users) : Collections.emptyList();
+            if (users != null) {
+                return Arrays.asList(users);
+            } else {
+                return Collections.emptyList();
+            }
         } catch (Exception e) {
             return Collections.emptyList();
         }

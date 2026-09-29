@@ -1,12 +1,13 @@
-package com.example.labfinal;
+package com.example.springai;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LabFinalPrepApplicationTests {
+class SpringAiTestApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
+
 }
