@@ -34,7 +34,10 @@ public class Student {
     private Address address;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "student_mobiles", joinColumns = @JoinColumn(name = "student_ref_id"))
+    @CollectionTable(
+            name = "student_mobiles",
+            joinColumns = @JoinColumn(name = "student_ref_id")
+    )
     @Column(name = "mobile_number")
     @Builder.Default
     private List<String> mobileNumbers = new ArrayList<>();

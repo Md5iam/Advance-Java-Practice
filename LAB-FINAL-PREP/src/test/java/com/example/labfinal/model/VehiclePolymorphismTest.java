@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class VehiclePolymorphismTest {
 
     private static String testSuiteId;
@@ -37,6 +39,7 @@ class VehiclePolymorphismTest {
 
     @Test
     void testSealedClassPolymorphism() {
+
         Assertions.assertNotNull(testSuiteId);
         Assertions.assertEquals("ELECTRIC", ev.getVehicleType());
         Assertions.assertEquals("AUTONOMOUS", av.getVehicleType());
